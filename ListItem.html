@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ListItem Page - EasyVent</title>
+
+  <!-- טעינת Firebase מה-CDN (גרסה לדוגמה - אפשר/רצוי לעדכן לגרסה החדשה) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+
+  <style>
+    /* --- התחלת סגנונות CSS במקום StyleSheet של React Native --- */
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+    }
+
+    /* מיכל ראשי */
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .maintext {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .maintext .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 5px;
+      color: #333;
+    }
+
+    /* כותרת טיימר */
+    .countdownText {
+      font-size: 20px;
+      font-weight: bold;
+      color: rgba(108, 99, 255, 0.9);
+      background-color: #fff0f5;
+      padding: 8px;
+      border-radius: 7px;
+      margin: 15px 0;
+      display: inline-block;
+    }
+
+    /* גלריית תמונות / קרוסלה */
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      margin: 0 auto 20px auto;
+      background: #ccc;
+    }
+
+    .carousel-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .remove-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: red;
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* כפתור העלאת קובץ במקום expo-image-picker */
+    .upload-btn {
+      margin: 10px 0;
+      cursor: pointer;
+      color: #007aff;
+      text-decoration: underline;
+      border: none;
+      background: none;
+    }
+
+    /* חלק מידע - 3 עיגולי התקדמות (תקציב, מוזמנים, מסמכים) */
+    .progress-sections {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .section-box {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      width: 32%;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      min-width: 100px;
+    }
+    .section-box h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+    .section-box p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* ריבוע טבלת סטטוס אישורי הגעה (מגיעים, אולי, לא מגיעים וכו') */
+    .status-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .status-box {
+      text-align: center;
+      margin: 5px;
+    }
+    .status-box img {
+      width: 50px;
+      height: 50px;
+      display: block;
+      margin: 0 auto 5px auto;
+    }
+    .status-box .status-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    .status-box .status-value {
+      font-size: 16px;
+      color: #000;
+    }
+
+    /* כפתורי ניווט לתתי-מסכים (משימות, תקציב וכו') */
+    .buttons-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .btn-nav {
+      width: 45%;
+      min-width: 130px;
+      height: 80px;
+      background: #fff;
+      margin: 5px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-nav:hover {
+      transform: scale(1.04);
+    }
+    .btn-nav img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 5px;
+    }
+    .btn-nav span {
+      font-size: 14px;
+      color: #333;
+    }
+
+    /* אייקונים של רשתות חברתיות */
+    .social-container {
+      margin-top: 20px;
+      margin-bottom: 70px;
+    }
+    .social-container p {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    .social-icons img {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none; /* מוסתר כברירת מחדל */
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal-container {
+      background: #fff;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      position: relative;
+      padding: 20px;
+      text-align: center;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: red;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .modal-subtitle {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .modal-step {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 3px 0;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .checkbox {
+      width: 20px; height: 20px;
+      border: 2px solid #007AFF;
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .checkbox-mark {
+      font-size: 14px;
+      color: #007AFF;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- טקסט כותרת למעלה -->
+    <div class="maintext">
+      <span class="title" id="eventDate">---</span>
+      <span class="title">●</span>
+      <span class="title" id="eventName">---</span>
+      <span class="title">●</span>
+      <span class="title" id="eventLocation">---</span>
+    </div>
+
+    <!-- קרוסלת/תמונת רקע עיקרית -->
+    <div class="carousel-container" id="carouselContainer">
+      <!-- תמונת placeholder או שתוצג תמונה מה־Firebase -->
+      <button class="remove-button" id="removeImageBtn" style="display:none;">×</button>
+    </div>
+    <!-- כפתור להעלאת תמונה במקום expo-image-picker -->
+    <input type="file" accept="image/*" id="fileInput" style="display:none;" />
+    <button class="upload-btn" id="uploadBtn">בחר/החלף תמונה</button>
+
+    <!-- טקסט ספירה לאחור עד לאירוע -->
+    <div id="countdown" class="countdownText"></div>
+
+    <!-- שלושת המספרים/העיגולים (מסמכים, מוזמנים, תקציב) -->
+    <div class="progress-sections">
+      <div class="section-box" id="documentsSection">
+        <h3>מסמכים</h3>
+        <p id="documentsCounter">0/10</p>
+        <!-- כאן אפשר להטמיע bar או circle (ב-Html אפשר עם canvas או פשוט bar). לצורך הדגמה, טקסט. -->
+        <p>התקדמות: <span id="documentsProgress">0%</span></p>
+      </div>
+      <div class="section-box" id="guestsSection">
+        <h3>מוזמנים</h3>
+        <p id="guestsCounter">0/0</p>
+        <p>התקדמות: <span id="guestsProgress">0%</span></p>
+      </div>
+      <div class="section-box" id="budgetSection">
+        <h3>תקציב</h3>
+        <p id="budgetCounter">0/0</p>
+        <p>התקדמות: <span id="budgetProgress">0%</span></p>
+      </div>
+    </div>
+
+    <!-- סטטוס אישורי הגעה -->
+    <div class="status-container">
+      <div class="status-box">
+        <img src="https://via.placeholder.com/50?text=?"
+             alt="טרם השיבו" />
+        <div class="status-title">טרם השיבו</div>
+        <div class="status-value" id="noAnswerCount">0</div>
+      </div>
+      <div class="status-box">
+        <img src="https://via.placeholder.com/50?text=X"
+             alt="לא מגיעים" />
+        <div class="status-title">לא מגיעים</div>
+        <div class="status-value" id="noComingCount">0</div>
+      </div>
+      <div class="status-box">
+        <img src="https://via.placeholder.com/50?text=?"
+             alt="אולי" />
+        <div class="status-title">אולי</div>
+        <div class="status-value" id="maybeCount">0</div>
+      </div>
+      <div class="status-box">
+        <img src="https://via.placeholder.com/50?text=V"
+             alt="מגיעים" />
+        <div class="status-title">מגיעים</div>
+        <div class="status-value" id="yesComingCount">0</div>
+      </div>
+    </div>
+
+    <!-- כפתורים שונים (ניהול אורחים, תקציב, משימות...) -->
+    <div class="buttons-grid">
+      <div class="btn-nav" onclick="goTo('Budget')">
+        <img src="https://via.placeholder.com/40?text=$" alt="תקציב" />
+        <span>תקציב</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('Management')">
+        <img src="https://via.placeholder.com/40?text=P" alt="ניהול אורחים" />
+        <span>ניהול אורחים</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('Task')">
+        <img src="https://via.placeholder.com/40?text=T" alt="משימות" />
+        <span>משימות</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('SeatedAtTable')">
+        <img src="https://via.placeholder.com/40?text=S" alt="הושבה" />
+        <span>סידורי הושבה</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('Providers')">
+        <img src="https://via.placeholder.com/40?text=SP" alt="ספקים" />
+        <span>ניהול ספקים</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('RSVP')">
+        <img src="https://via.placeholder.com/40?text=V" alt="אישורי הגעה" />
+        <span>אישורי הגעה</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('Gift')">
+        <img src="https://via.placeholder.com/40?text=G" alt="מתנות" />
+        <span>מתנות</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('Document')">
+        <img src="https://via.placeholder.com/40?text=D" alt="קבלות ומסמכים" />
+        <span>קבלות ומסמכים</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('Home')">
+        <img src="https://via.placeholder.com/40?text=H" alt="בית" />
+        <span>מסך בית</span>
+      </div>
+      <div class="btn-nav" onclick="goTo('Purchase')">
+        <img src="https://via.placeholder.com/40?text=P" alt="חבילה" />
+        <span>רכוש חבילה</span>
+      </div>
+    </div>
+
+    <!-- רשתות חברתיות -->
+    <div class="social-container">
+      <p>חפשו אותנו ברשתות החברתיות</p>
+      <div class="social-icons">
+        <img src="https://via.placeholder.com/40?text=FB" alt="Facebook" onclick="onPressSocial('facebook')" />
+        <img src="https://via.placeholder.com/40?text=IG" alt="Instagram" onclick="onPressSocial('instagram')" />
+        <img src="https://via.placeholder.com/40?text=TT" alt="Tiktok" onclick="onPressSocial('tiktok')" />
+        <img src="https://via.placeholder.com/40?text=WA" alt="Whatsapp" onclick="onPressSocial('whatsapp')" />
+      </div>
+    </div>
+
+  </div> <!-- container end -->
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="welcomeModal">
+    <div class="modal-container">
+      <button class="modal-close-btn" id="closeModalBtn">×</button>
+      <div class="modal-title">ברוכים הבאים ל-EasyVent</div>
+      <div class="modal-subtitle">כדי להתחיל את האירוע יש להשלים את השלבים הבאים:</div>
+      <div class="modal-step">✔ ניהול אורחים</div>
+      <div class="modal-step">✔ ניהול הושבה</div>
+      <div class="modal-step">✔ אישורי הגעה</div>
+      <div class="modal-subtitle">בחרו שלב להתחלה:</div>
+
+      <div style="margin: 10px 0;">
+        <button onclick="startStep('Management')">ניהול אורחים</button>
+        <button onclick="startStep('SeatedAtTable')">הושבה</button>
+        <button onclick="startStep('RSVP')">אישורי הגעה</button>
+      </div>
+
+      <div class="checkbox-container" onclick="toggleDontShowAgain()">
+        <div class="checkbox" id="checkboxDiv"></div>
+        <span>אל תציג הודעה זו שוב</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- הגדרת Firebase (התאם לפי הפרויקט שלך) ----------
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8LTCh_O_C0mFYINpbdEqgiW_3Z51L1ag",
+      authDomain: "final-project-d6ce7.firebaseapp.com",
+      projectId: "final-project-d6ce7",
+      storageBucket: "final-project-d6ce7.appspot.com",
+      messagingSenderId: "1056060530572",
+      appId: "1:1056060530572:web:d08d859ca2d25c46d340a9",
+      measurementId: "G-LD61QH3VVP"
+    };
+
+    // אתחול Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const storage = firebase.storage();
+
+    // ---------- דוגמאות למשתנים (במקום useState) ----------
+    let userId = "USER_ID_123";       // זיהוי משתמש (במקום firebase.auth().currentUser)
+    let eventId = "EVENT_ID_456";     // מזהה אירוע
+    let dontShowAgain = false;
+
+    // דוגמה לנתונים של האירוע (במקום props.route.params.id וכו'):
+    let eventDetails = {
+      eventDate: "2025-12-31",
+      eventName: "החתונה של יוסי ודנה",
+      eventLocation: "אולם גן האירועים",
+      Numberofguests: 300,
+      counter_contacts: 120,
+      budget: 50000,
+      spend: 10000,
+      no_answear: 50,
+      no_cuming: 10,
+      maybe: 5,
+      yes_caming: 55,
+      Numberofimage: 2,
+      NumberofSizeimage: 4, // סה"כ 4MB הועלה
+    };
+
+    // פקדי DOM
+    const eventDateEl = document.getElementById("eventDate");
+    const eventNameEl = document.getElementById("eventName");
+    const eventLocationEl = document.getElementById("eventLocation");
+    const countdownEl = document.getElementById("countdown");
+
+    const documentsCounterEl = document.getElementById("documentsCounter");
+    const documentsProgressEl = document.getElementById("documentsProgress");
+    const guestsCounterEl = document.getElementById("guestsCounter");
+    const guestsProgressEl = document.getElementById("guestsProgress");
+    const budgetCounterEl = document.getElementById("budgetCounter");
+    const budgetProgressEl = document.getElementById("budgetProgress");
+
+    const noAnswerCountEl = document.getElementById("noAnswerCount");
+    const noComingCountEl = document.getElementById("noComingCount");
+    const maybeCountEl = document.getElementById("maybeCount");
+    const yesComingCountEl = document.getElementById("yesComingCount");
+
+    const carouselContainer = document.getElementById("carouselContainer");
+    const removeImageBtn = document.getElementById("removeImageBtn");
+    const fileInput = document.getElementById("fileInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+
+    // מודאל
+    const welcomeModal = document.getElementById("welcomeModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const checkboxDiv = document.getElementById("checkboxDiv");
+
+    // ---------- הצגת נתונים בסיסיים במסך ----------
+    function loadEventDetails() {
+      // נניח שאנחנו קוראים מתוך ה-DB, כאן זו רק הדגמה
+      eventDateEl.textContent = eventDetails.eventDate;
+      eventNameEl.textContent = eventDetails.eventName;
+      eventLocationEl.textContent = eventDetails.eventLocation;
+
+      // מסמכים
+      documentsCounterEl.textContent = `${eventDetails.Numberofimage || 0}/10`;
+      let docProgress = Math.min((eventDetails.Numberofimage || 0) / 10, 1) * 100;
+      documentsProgressEl.textContent = `${docProgress.toFixed(0)}%`;
+
+      // מוזמנים
+      guestsCounterEl.textContent = `${eventDetails.counter_contacts || 0}/${eventDetails.Numberofguests || 0}`;
+      let guestProgress = Math.min((eventDetails.counter_contacts || 0)/(eventDetails.Numberofguests || 1), 1)*100;
+      guestsProgressEl.textContent = `${guestProgress.toFixed(0)}%`;
+
+      // תקציב
+      budgetCounterEl.textContent = `${eventDetails.spend || 0}/${eventDetails.budget || 0}`;
+      let budgetProgress = 0;
+      if (eventDetails.budget && eventDetails.budget > 0) {
+        budgetProgress = (eventDetails.spend / eventDetails.budget) * 100;
+      }
+      budgetProgressEl.textContent = `${budgetProgress.toFixed(0)}%`;
+
+      // סטטוס אישורי הגעה
+      noAnswerCountEl.textContent = eventDetails.no_answear || 0;
+      noComingCountEl.textContent = eventDetails.no_cuming || 0;
+      maybeCountEl.textContent = eventDetails.maybe || 0;
+      yesComingCountEl.textContent = eventDetails.yes_caming || 0;
+    }
+
+    // ---------- ספירה לאחור ----------
+    function startCountdown() {
+      let targetDate = new Date(eventDetails.eventDate);
+      function updateCountdown() {
+        let now = new Date();
+        let diff = targetDate.getTime() - now.getTime();
+        let daysLeft = Math.ceil(diff / (1000 * 3600 * 24));
+
+        if (daysLeft > 0) {
+          countdownEl.textContent = `🎉 עוד ${daysLeft} ימים לאירוע הגדול! 🎉`;
+        } else if (daysLeft === 0) {
+          countdownEl.textContent = "🎉 בשעה טובה! 🎉";
+        } else {
+          countdownEl.textContent = "🎉 האירוע מאחורינו 🎉";
+        }
+      }
+      updateCountdown();
+      setInterval(updateCountdown, 1000 * 60 * 60); // עדכון כל שעה
+    }
+
+    // ---------- מודאל קופץ (ברוכים הבאים) ----------
+    function showWelcomeModal() {
+      // כאן אפשר להחליט האם לפתוח מודאל רק אם חסרים פרטים (כמו ב-React Native)
+      let showModal = true; // נניח שהחלטנו להראות
+      if (dontShowAgain) showModal = false;
+
+      if (showModal) {
+        welcomeModal.style.display = "flex";
+      }
+    }
+    function closeWelcomeModal() {
+      welcomeModal.style.display = "none";
+    }
+    closeModalBtn.addEventListener("click", closeWelcomeModal);
+
+    function toggleDontShowAgain() {
+      dontShowAgain = !dontShowAgain;
+      checkboxDiv.innerHTML = dontShowAgain ? '<span class="checkbox-mark">✔</span>' : '';
+    }
+
+    function startStep(stepName) {
+      // כאן אתה יכול להעביר ל-locations שונים
+      alert("מעבר למסך " + stepName + "...");
+      closeWelcomeModal();
+    }
+
+    // ---------- העלאת תמונה ל-Firebase (תחליף ל-expo-image-picker) ----------
+    uploadBtn.addEventListener("click", () => {
+      fileInput.click();
+    });
+    fileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        // העלאת קובץ ל-Firebase Storage
+        const storageRef = storage.ref(`users/${userId}/${eventId}/main_carusela/${file.name}`);
+        await storageRef.put(file);
+        const downloadURL = await storageRef.getDownloadURL();
+        showImage(downloadURL);
+        removeImageBtn.style.display = "block";
+      } catch (err) {
+        console.error("Error uploading image:", err);
+        alert("שגיאה בהעלאת תמונה");
+      }
+    });
+
+    function showImage(url) {
+      // מציגים את התמונה ב-div של ה-carousel
+      carouselContainer.innerHTML = `<img src="${url}" alt="Uploaded Image" />`;
+      carouselContainer.appendChild(removeImageBtn); 
+    }
+
+    // מחיקת תמונה
+    removeImageBtn.addEventListener("click", async () => {
+      // בדוגמה נמחק רק מהמסך (בלי למחוק מ-Firebase)
+      carouselContainer.innerHTML = "";
+      removeImageBtn.style.display = "none";
+      // אפשר גם למחוק מסטורג' עם:
+      // const storageRef = storage.ref(`users/${userId}/${eventId}/main_carusela/...`);
+      // await storageRef.delete();
+    });
+
+    // ---------- הדמיה של מעבר בין מסכים (במקום navigation.navigate) ----------
+    function goTo(screenName) {
+      alert("היית עובר למסך: " + screenName);
+    }
+
+    // ---------- רשתות חברתיות ----------
+    function onPressSocial(network) {
+      alert("מעבר ל-" + network);
+    }
+
+    // ---------- INIT ----------
+    loadEventDetails();
+    startCountdown();
+    showWelcomeModal();
+  </script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>EasyVent - Settings</title>
+
+  <!-- טעינת Firebase בגרסת ה-compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      direction: rtl;
+    }
+    body {
+      background: #fff;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* מיכל ראשי */
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 10px;
+      position: relative;
+    }
+
+    /* כותרת עליונה */
+    .header {
+      flex-direction: row-reverse;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 10px;
+    }
+    .header img {
+      width: 24px; 
+      height: 24px;
+      cursor: pointer;
+      margin-left: 10px;  /* רווח בין האייקון לכותרת */
+    }
+    .headerTitle {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* טקסט משתמש מחובר */
+    .userInfo {
+      font-size: 16px;
+      color: #555;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    /* רשימת הגדרות */
+    .settings-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    .settings-list li {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    .option-content {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+    }
+    .option-icon {
+      width: 24px;
+      height: 24px;
+      margin-left: 10px;
+    }
+    .option-text {
+      font-size: 16px;
+      color: #333;
+    }
+    .arrow-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.4;
+      transform: rotate(180deg); /* כדי שיפנה שמאלה */
+    }
+
+    /* כפתור התנתק */
+    .signOutButton {
+      margin-top: 20px;
+      background-color: #FF5252;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Modal רקע */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none; /* מוסתר כברירת מחדל */
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal-overlay.show {
+      display: flex; /* מציג את המודל */
+    }
+
+    /* תוכן המודל */
+    .modal-content {
+      background: #fff;
+      width: 80%;
+      max-height: 70%;
+      overflow-y: auto;
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .modal-text {
+      font-size: 14px;
+      color: #333;
+      line-height: 20px;
+      white-space: pre-line; 
+      margin-bottom: 20px;
+      text-align: right;
+    }
+    .close-btn {
+      background: #FF5252;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+
+    /* מודל מחיקת חשבון (עם הזנת סיסמה) */
+    .modal-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    .modal-buttons {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+      gap: 10px;
+    }
+    .cancel-btn, .confirm-btn {
+      background: gray;
+      border: none;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .confirm-btn {
+      background: red;
+    }
+  </style>
+</head>
+<body>
+
+<!-- הגדרת Firebase -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyB...Z51L1ag",
+    authDomain: "final-project-d6ce7.firebaseapp.com",
+    projectId: "final-project-d6ce7",
+    storageBucket: "final-project-d6ce7.appspot.com",
+    messagingSenderId: "1056060530572",
+    appId: "1:1056060530572:web:d08d859ca2d25c46d340a9"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+</script>
+
+<div class="container">
+  <!-- כותרת עליונה -->
+  <div class="header">
+    <img id="backIcon" src="assets/settings.png" alt="Back Icon" />
+    <div class="headerTitle">הגדרות</div>
+  </div>
+
+  <!-- טקסט שמשתנה לפי משתמש -->
+  <div class="userInfo" id="userInfoText">שלום, משתמש</div>
+
+  <!-- רשימת הגדרות -->
+  <ul class="settings-list" id="settingsList">
+    <!-- נטען דינמית ב-JS -->
+  </ul>
+
+  <!-- כפתור התנתק -->
+  <button class="signOutButton" id="signOutButton">התנתק</button>
+</div>
+
+<!-- מודלים שונים -->
+<!-- Modal "אודות" -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="modal-content">
+    <div class="modal-title">אודות</div>
+    <div class="modal-text">
+      החברה – יובל טכנולוגיות מכבדת את פרטיות המשתמשים באתר
+      האינטרנט שהיא מנהלת ומפעילה. על כן החליטה החברה לפרסם את
+      מדיניותה ביחס להגנת הפרטיות באתר, והיא מתחייבת כלפי המשתמש
+      לקיים מדיניות זו.
+
+      {"\n"}מטרת המדיניות היא להסביר מהם נוהגי בעל האתר ביחס לפרטיות
+      המשתמשים באתר, וכיצד משתמש בעל האתר במידע, הנמסר לו על-ידי
+      המשתמשים באתר או הנאסף בעת השימוש באתר.
+    </div>
+    <button class="close-btn" onclick="closeModal('aboutModal')">סגור</button>
+  </div>
+</div>
+
+<!-- Modal עזרה ותמיכה -->
+<div class="modal-overlay" id="helpModal">
+  <div class="modal-content">
+    <div class="modal-title">עזרה ותמיכה</div>
+    <div class="modal-text">
+      אם אתה נתקל בבעיות או זקוק לעזרה, אנו כאן כדי לסייע לך!
+      
+      <br/><br/>
+      <strong>צור קשר:</strong>
+      <br/>
+      אנו זמינים בשעות הפעילות שלנו:
+      <br/>- ימים א'-ה': 09:00 - 18:00
+      <br/>- יום ו': 09:00 - 13:00
+
+      <br/><br/>
+      <strong>דרכי יצירת קשר:</strong>
+      <br/>
+      - דוא"ל: yovelderey@gmail.com
+      <br/>
+      - וואטסאפ: 054-2455869
+
+      <br/><br/>
+      <strong>שאלות נפוצות:</strong>
+      <br/>
+      1. שכחתי את הסיסמה שלי, מה לעשות?
+      <br/>- תוכל לאפס את הסיסמה דרך כפתור "איפוס סיסמה".
+
+      <br/><br/>
+      2. כיצד אני עורך את פרטי האירוע?
+      <br/>- עבור למסך "ניהול אירועים".
+
+      <br/><br/>
+      3. נתקלתי בבעיה טכנית, מה לעשות?
+      <br/>- אנא צור קשר עם התמיכה הטכנית שלנו, ונשמח לעזור לך.
+
+    </div>
+    <button class="close-btn" onclick="closeModal('helpModal')">סגור</button>
+  </div>
+</div>
+
+<!-- Modal תנאי שימוש -->
+<div class="modal-overlay" id="termsModal">
+  <div class="modal-content">
+    <div class="modal-title">תנאי שימוש</div>
+    <div class="modal-text">
+      ברוכים הבאים לאפליקציה שלנו!
+      האפליקציה מיועדת לספק פתרונות חכמים ונוחים לניהול ותכנון אירועים.
+      
+      <br/><br/>
+      <strong>שימוש באפליקציה</strong>
+      <br/>
+      כל שימוש באפליקציה כפוף לתנאים הבאים:
+      1. האפליקציה נועדה לשימוש אישי בלבד.
+      2. חל איסור להשתמש בה לצורך הטרדה או שימוש בלתי חוקי.
+
+      <br/><br/>
+      <strong>מדיניות פרטיות</strong>
+      <br/>
+      אנו מחויבים לשמירה על פרטיות המשתמשים. המידע שנאסף ישמש לצורך ניהול האירועים בלבד.
+
+      <br/><br/>
+      <strong>תודה שהשתמשתם באפליקציה!</strong>
+    </div>
+    <button class="close-btn" onclick="closeModal('termsModal')">סגור</button>
+  </div>
+</div>
+
+<!-- Modal מחיקת חשבון (עם אימות סיסמה) -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-content">
+    <div class="modal-title">אימות סיסמה</div>
+    <input type="password" id="deletePassword" class="modal-input" placeholder="הזן סיסמה" />
+    <div class="modal-buttons">
+      <button class="cancel-btn" onclick="toggleModal('deleteModal', false)">ביטול</button>
+      <button class="confirm-btn" onclick="reauthenticateAndDelete()">אישור</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ------------------------------------------------
+  // 1. מבנה האופציות
+  // ------------------------------------------------
+  const settingsOptions = [
+    { id: 4, title: 'תנאי שימוש', icon: 'assets/document.png', onPress: () => toggleModal('termsModal', true) },
+    { id: 5, title: 'עזרה & תמיכה', icon: 'assets/question.png', onPress: () => toggleModal('helpModal', true) },
+    { id: 6, title: 'אודות',       icon: 'assets/info.png',     onPress: () => toggleModal('aboutModal', true) },
+    { id: 7, title: 'אפס סיסמה',  icon: 'assets/reset-password.png', onPress: () => handleChangePassword() },
+    { id: 8, title: 'מחק חשבון',  icon: 'assets/remove-user.png',    onPress: () => toggleModal('deleteModal', true) },
+    { id: 1, title: 'חזור למסך הראשי', icon: 'assets/return.png', onPress: () => goHome() }
+  ];
+
+  // ------------------------------------------------
+  // 2. בניית הרשימה בדף
+  // ------------------------------------------------
+  const settingsListEl = document.getElementById('settingsList');
+
+  function buildSettingsList() {
+    settingsOptions.forEach(option => {
+      // li עוטף
+      const li = document.createElement('li');
+      li.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (option.onPress) {
+          option.onPress();
+        } else {
+          alert("No action defined for " + option.title);
+        }
+      });
+
+      // צד שמאל - חץ
+      const arrowImg = document.createElement('img');
+      arrowImg.src = 'assets/left-arrow.png';
+      arrowImg.className = 'arrow-icon';
+
+      // צד ימין - אייקון וטקסט
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'option-content';
+
+      const iconImg = document.createElement('img');
+      iconImg.src = option.icon;
+      iconImg.className = 'option-icon';
+
+      const textEl = document.createElement('span');
+      textEl.className = 'option-text';
+      textEl.textContent = option.title;
+
+      contentDiv.appendChild(iconImg);
+      contentDiv.appendChild(textEl);
+
+      // מוסיפים ל-li
+      li.appendChild(arrowImg);
+      li.appendChild(contentDiv);
+
+      settingsListEl.appendChild(li);
+    });
+  }
+
+  // ------------------------------------------------
+  // 3. ניהול משתמש והצגת שם המשתמש
+  // ------------------------------------------------
+  const userInfoTextEl = document.getElementById('userInfoText');
+
+  function simulateAuthCheck() {
+    // נניח שיש משתמש מחובר עם מייל קבוע
+    const mockUser = true;
+    if (mockUser) {
+      userInfoTextEl.textContent = "שלום, testuser@gmail.com";
+    } else {
+      userInfoTextEl.textContent = "Not logged in";
+    }
+    // אפשרות אמיתית:
+    // auth.onAuthStateChanged((user) => {
+    //   if (user) userInfoTextEl.textContent = "שלום, " + user.email;
+    //   else userInfoTextEl.textContent = "Not logged in";
+    // });
+  }
+
+  // ------------------------------------------------
+  // 4. כפתור חזור למסך הראשי
+  // ------------------------------------------------
+  function goHome() {
+    alert("חוזר למסך הראשי...");
+    // כאן אפשר לעשות window.location.href = "index.html"
+    // או נווט בעזרת React Router וכו'
+  }
+
+  // ------------------------------------------------
+  // 5. התנתק
+  // ------------------------------------------------
+  const signOutBtn = document.getElementById("signOutButton");
+  signOutBtn.addEventListener('click', () => {
+    // כאן עושים signOut אמיתי אם רוצים
+    // auth.signOut().then(() => {
+    //   alert("התנתקת בהצלחה");
+    //   userInfoTextEl.textContent = "Not logged in";
+    // }).catch(err => alert("Sign out error: " + err.message));
+    alert("בוצעה התנתקות (סימולציה)");
+  });
+
+  // ------------------------------------------------
+  // 6. איפוס סיסמה
+  // ------------------------------------------------
+  function handleChangePassword() {
+    // בדוגמה: שולחים אימייל איפוס
+    // בפועל צריך user.email אמיתי
+    alert("ישלח מייל לאיפוס סיסמה לכתובת המשמשת בחשבון (סימולציה).");
+    // auth.sendPasswordResetEmail(user.email)...
+  }
+
+  // ------------------------------------------------
+  // 7. מחיקת חשבון (עם הזנת סיסמה)
+  // ------------------------------------------------
+  function reauthenticateAndDelete() {
+    const deletePasswordEl = document.getElementById('deletePassword');
+    const password = deletePasswordEl.value;
+    deletePasswordEl.value = '';
+
+    if (!password) {
+      alert("לא הוזנה סיסמה");
+      toggleModal('deleteModal', false);
+      return;
+    }
+    // כאן נדרש user אמיתי:
+    // const user = auth.currentUser;
+    // const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+    // user.reauthenticateWithCredential(credential).then(() => {
+    //   user.delete().then(() => {
+    //     alert("החשבון נמחק בהצלחה");
+    //     // מעבר לעמוד אחר, וכו'
+    //   }).catch(err => alert("שגיאה במחיקת חשבון: " + err.message));
+    // }).catch(err => alert("שגיאה באימות מחדש: " + err.message));
+    
+    alert("בוצעה פעולה של re-auth ו-delete (סימולציה). הסיסמה שהוזנה: " + password);
+    toggleModal('deleteModal', false);
+  }
+
+  // ------------------------------------------------
+  // 8. הצגת/הסתרת מודל לפי מזהה
+  // ------------------------------------------------
+  function toggleModal(modalId, show) {
+    const modalEl = document.getElementById(modalId);
+    if (!modalEl) return;
+    if (show) {
+      modalEl.classList.add('show');
+    } else {
+      modalEl.classList.remove('show');
+    }
+  }
+
+  function closeModal(modalId) {
+    toggleModal(modalId, false);
+  }
+
+  // ------------------------------------------------
+  // INIT
+  // ------------------------------------------------
+  window.addEventListener("load", () => {
+    simulateAuthCheck();
+    buildSettingsList();
+  });
+
+  // כפתור "הגדרות" למעלה משמש ככפתור חזור:
+  const backIconEl = document.getElementById("backIcon");
+  backIconEl.addEventListener("click", () => {
+    alert("חוזר אחורה...");
+    // אפשר במקום זה לעשות history.back() או window.location.href = "..."
+  });
+</script>
+
+</body>
+</html>

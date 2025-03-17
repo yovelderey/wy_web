@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>EasyVent - Main Screen (Realtime DB Example)</title>
+
+  <!-- טעינת Firebase מה-CDN בגרסת ה-compat (בלי import/export) -->
+  <!-- אפשר לעדכן לגירסה חדשה יותר. חשוב לשמור על -compat כדי לקבל את אובייקט firebase הגלובלי -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+
+  <style>
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #fff;
+      position: relative;
+      min-height: 100vh; /* מבטיח שגוף העמוד יהיה לפחות בגובה המסך */
+      overflow-x: hidden; /* למנוע גלילה אופקית אם יש אלמנטים רחבים מדי */
+    }
+
+    /* הודעת "אין חיבור אינטרנט" */
+    .offline-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      text-align: center;
+      padding: 20px;
+      display: none; /* מוסתר כברירת מחדל */
+    }
+    .offline-container.show {
+      display: flex; /* מציג את הקונטיינר */
+    }
+    .offline-title {
+      font-size: 24px;
+      color: red;
+      margin-bottom: 10px;
+    }
+    .offline-subtitle {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .offline-btn {
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    /* אזור ראשי */
+    .container {
+      width: 100%;         /* משתמש בכל רוחב המסך */
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      padding-bottom: 80px; /* שיהיה מקום לפוטר */
+      min-height: 100vh;    /* כדי למלא גם את הגובה */
+    }
+
+    /* רקע GIF שמכסה את כל המסך */
+    .background-gif {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      opacity: 0.3;
+      z-index: -1; /* מאחורי התוכן */
+    }
+
+    /* כותרת "EasyVent" גדולה */
+    .title-big {
+      font-size: 40px;
+      font-weight: bold;
+      color: #000;
+      margin-top: 80px; /* רווח מלמעלה */
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+
+    /* כפתור הגדרות (משתמש) */
+    .settings-btn {
+      position: absolute;
+      top: 10px; 
+      right: 10px;
+      width: 40px; 
+      height: 40px;
+      cursor: pointer;
+    }
+
+    /* כפתור רענון (zor_event.png) */
+    .refresh-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 50px; 
+      height: 50px;
+      cursor: pointer;
+    }
+
+    /* אזור "האירועים שלי" */
+    .my-events-title {
+      margin-top: 40px;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #000;
+    }
+    .events-list-container {
+      width: 100%;
+      max-width: 800px;
+      max-height: 400px;
+      overflow-y: auto;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 10px;
+      margin-bottom: 40px; /* רווח קטן מתחת */
+    }
+    .event-box {
+      width: 95%;
+      max-width: 600px;
+      background: rgba(240,240,240,0.7);
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .event-box:hover {
+      transform: scale(1.02);
+    }
+    .event-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .edit-delete-btn {
+      position: absolute;
+      top: 10px; 
+      right: 10px;
+      width: 24px; 
+      height: 24px;
+      cursor: pointer;
+    }
+
+    /* אזור "לא מחובר" - מציג GIF אחר וכפתור התחברות */
+    .login-section {
+      margin-top: 60px;
+    }
+    .loading-gif {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      margin-top: 20px;
+    }
+    .welcome-img {
+      width: 100%;
+      max-width: 250px;
+      margin-top: 20px;
+      height: auto;
+    }
+    .login-btn {
+      margin-top: 40px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .login-btn img {
+      width: 340px;
+      height: 50px;
+    }
+
+    /* כותרת פוטר */
+    .footer-text {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 13px;
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- הודעת "אין חיבור אינטרנט" -->
+  <div class="offline-container" id="offlineContainer">
+    <div class="offline-title">בעיית אינטרנט</div>
+    <div class="offline-subtitle">
+      נא בדוק חיבור לרשת ה-WiFi או בדוק עם ספק התקשורת שלך, תודה רבה.
+    </div>
+    <button class="offline-btn" id="reloadBtn">טען מחדש</button>
+    <button class="offline-btn" id="exitBtn">יציאה</button>
+  </div>
+
+  <!-- מיכל ראשי -->
+  <div class="container" id="mainContainer">
+    <!-- GIF רקע -->
+    <img src="assets/Socialm.gif" alt="Background GIF"
+         class="background-gif" id="bgGif" />
+
+    <!-- כותרת גדולה -->
+    <div class="title-big" id="bigTitle" style="display:none;">EasyVent</div>
+
+    <!-- כפתור הגדרות (user.png) -->
+    <img src="assets/user.png" alt="Settings"
+         class="settings-btn"
+         id="settingsBtn"
+         style="display:none;" />
+
+    <!-- כפתור רענון (zor_event.png) -->
+    <img src="assets/zor_event.png" alt="Refresh"
+         class="refresh-btn"
+         id="refreshBtn"
+         style="display:none;" />
+
+    <!-- אם מחובר: "האירועים שלי" -->
+    <div id="myEventsSection" style="display:none;">
+      <div class="my-events-title">- האירועים שלי -</div>
+      <div class="events-list-container" id="eventsListContainer">
+        <!-- כאן ה-JS יכניס אירועים -->
+      </div>
+    </div>
+
+    <!-- אם לא מחובר: GIF אחר + כפתור התחברות -->
+    <div id="loginSection" class="login-section" style="display:none;">
+      <img src="assets/VIDEOLOADING.gif"
+           alt="Loading GIF"
+           class="loading-gif" />
+      <img src="assets/eastvent_text1.png"
+           alt="Welcome"
+           class="welcome-img" />
+      <button class="login-btn" id="goLoginBtn">
+        <img src="assets/easyvent_login_botton.png" alt="Login Button" />
+      </button>
+    </div>
+
+    <!-- כותרת פוטר -->
+    <div class="footer-text" id="footerText" style="display:none;">
+      כל הזכויות שמורות EasyVent©
+    </div>
+  </div>
+
+  <script>
+    // ---------- הגדרת Firebase בגרסת ה-compat (v9 אבל עם שם גלובלי firebase) ----------
+    const firebaseConfig = {
+      apiKey: "AIzaSyB...Z51L1ag",
+      authDomain: "final-project-d6ce7.firebaseapp.com",
+      projectId: "final-project-d6ce7",
+      storageBucket: "final-project-d6ce7.appspot.com",
+      messagingSenderId: "1056060530572",
+      appId: "1:1056060530572:web:d08d859ca2d25c46d340a9",
+      measurementId: "G-LD61QH3VVP"
+    };
+
+    // אתחול Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // עבודת compat => אובייקט גלובלי firebase
+    const auth = firebase.auth();
+    const db   = firebase.database();
+    const st   = firebase.storage();
+
+    // ------------------------------------------
+    // אלמנטים מה-DOM
+    // ------------------------------------------
+    const offlineContainer = document.getElementById("offlineContainer");
+    const reloadBtn = document.getElementById("reloadBtn");
+    const exitBtn = document.getElementById("exitBtn");
+
+    const bigTitle = document.getElementById("bigTitle");
+    const settingsBtn = document.getElementById("settingsBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    const myEventsSection = document.getElementById("myEventsSection");
+    const eventsListContainer = document.getElementById("eventsListContainer");
+
+    const loginSection = document.getElementById("loginSection");
+    const goLoginBtn = document.getElementById("goLoginBtn");
+
+    const footerText = document.getElementById("footerText");
+
+    // ------------------------------------------
+    // סימון התחברות משתמש (סימולציה) + userId
+    // ------------------------------------------
+    let isUserLoggedIn = false;
+    // חשוב: תואם לנתיב ב-Firebase => Events/ob6yVhTVgwWnfx9Wb4sCxQg384C2/
+    let userId = "ob6yVhTVgwWnfx9Wb4sCxQg384C2"; 
+    let eventsData = [];
+
+    // ------------------------------------------
+    // בדיקת חיבור לרשת (במקום NetInfo מ-React Native)
+    // ------------------------------------------
+    function checkNetwork() {
+      if (!navigator.onLine) {
+        offlineContainer.classList.add("show");
+      } else {
+        offlineContainer.classList.remove("show");
+      }
+    }
+
+    window.addEventListener("load", () => {
+      checkNetwork();
+      window.addEventListener("online", checkNetwork);
+      window.addEventListener("offline", checkNetwork);
+
+      // כאן נדמה בדיקת המשתמש
+      simulateAuthCheck();
+    });
+
+    // לחצני offline
+    reloadBtn.addEventListener("click", () => {
+      location.reload();
+    });
+    exitBtn.addEventListener("click", () => {
+      alert("אנא סגור את הדפדפן או את החלון ידנית.");
+    });
+
+    // ------------------------------------------
+    // סימולציה של onAuthStateChanged
+    // ------------------------------------------
+    function simulateAuthCheck() {
+      // לדוגמה: המשתמש מחובר
+      isUserLoggedIn = true; 
+      // userId כבר הוגדר למעלה כ: ob6yVhTVgwWnfx9Wb4sCxQg384C2
+      updateUIByAuthState();
+    }
+
+    // ------------------------------------------
+    // הצגת/הסתרת אלמנטים לפי התחברות
+    // ------------------------------------------
+    function updateUIByAuthState() {
+      if (isUserLoggedIn) {
+        // מציגים חלקים של "מחובר"
+        bigTitle.style.display = "block";
+        settingsBtn.style.display = "block";
+        refreshBtn.style.display = "block";
+        myEventsSection.style.display = "block";
+        footerText.style.display = "block";
+
+        loginSection.style.display = "none";
+        
+        // שלוף אירועים
+        fetchEventsFromDB();
+      } else {
+        // מציגים חלקים של "לא מחובר"
+        bigTitle.style.display = "none";
+        settingsBtn.style.display = "none";
+        refreshBtn.style.display = "none";
+        myEventsSection.style.display = "none";
+
+        loginSection.style.display = "block";
+        footerText.style.display = "block";
+      }
+    }
+
+    // כפתור הגדרות
+    settingsBtn.addEventListener("click", () => {
+  window.location.href = "index_settings.html";
+});
+
+
+    // כפתור רענון
+    refreshBtn.addEventListener("click", () => {
+      alert("רענון / מעבר ל'Home'...");
+      fetchEventsFromDB();
+    });
+
+    // כפתור התחברות
+    goLoginBtn.addEventListener("click", () => {
+      alert("מעבר למסך LoginEmail...");
+    });
+
+    // ------------------------------------------
+    // שליפת אירועים מה-DB (Realtime Database)
+    // ------------------------------------------
+    async function fetchEventsFromDB() {
+      try {
+        if (!userId) {
+          console.log("No userId, skipping fetch.");
+          return;
+        }
+        const dbRef = db.ref("Events/" + userId + "/");
+        const snapshot = await dbRef.get();
+
+        console.log("Fetched snapshot for userId=", userId, 
+                    " => snapshot.exists()? ", snapshot.exists());
+        
+        eventsData = [];
+        if (snapshot.exists()) {
+          const fetched = snapshot.val();
+          console.log("snapshot.val() = ", fetched);
+          // הופכים את מפתחות האובייקט למערך
+          eventsData = Object.keys(fetched).map(key => {
+            return { id: key, ...fetched[key] };
+          });
+        }
+        console.log("eventsData:", eventsData);
+
+        renderEvents();
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    }
+
+    // ------------------------------------------
+    // הצגת האירועים על המסך
+    // ------------------------------------------
+    function renderEvents() {
+      eventsListContainer.innerHTML = ""; // איפוס
+
+      if (eventsData.length === 0) {
+        const noEventsMsg = document.createElement("div");
+        noEventsMsg.innerText = "אין כרגע אירועים, צור אירוע חדש";
+        eventsListContainer.appendChild(noEventsMsg);
+        return;
+      }
+
+      eventsData.forEach(event => {
+        const eventDiv = document.createElement("div");
+        eventDiv.className = "event-box";
+        
+        // מעבר למסך ListItem בלחיצה
+        eventDiv.addEventListener("click", () => goToListItem(event.id));
+
+        // כותרת האירוע
+        const titleEl = document.createElement("div");
+        titleEl.className = "event-title";
+        // מציגים את key (event.id) או שתרצה להציג event.eventName
+        titleEl.textContent = event.id; 
+        // לדוגמה, אם תרצה להציג event.eventName:
+        // titleEl.textContent = event.eventName;
+
+        // אייקון עריכה/מחיקה
+        const editDeleteBtn = document.createElement("img");
+        editDeleteBtn.className = "edit-delete-btn";
+        editDeleteBtn.src = "assets/edit.png";
+        editDeleteBtn.alt = "Edit or Delete";
+
+        // כדי שלא נלחץ בטעות על goToListItem
+        editDeleteBtn.addEventListener("click", (e) => {
+          e.stopPropagation(); 
+          showDeleteOrEditModal(event.id);
+        });
+
+        eventDiv.appendChild(titleEl);
+        eventDiv.appendChild(editDeleteBtn);
+
+        eventsListContainer.appendChild(eventDiv);
+      });
+    }
+
+    // ------------------------------------------
+    // מעבר למסך ListItem (במקום handlePressHome)
+    // ------------------------------------------
+    function goToListItem(eventId) {
+      alert("מעבר למסך 'ListItem' לאירוע: " + eventId);
+    }
+
+    // ------------------------------------------
+    // הצגת חלון "מחק / ערוך"
+    // ------------------------------------------
+    function showDeleteOrEditModal(eventId) {
+      const action = prompt("הקלד:\n1 למחיקה\n2 לעריכה\nכל דבר אחר לביטול", "");
+      if (action === "1") {
+        deleteEvent(eventId);
+      } else if (action === "2") {
+        editEvent(eventId);
+      } else {
+        console.log("ביטול פעולה");
+      }
+    }
+
+    // ------------------------------------------
+    // מחיקת אירוע
+    // ------------------------------------------
+    async function deleteEvent(eventId) {
+      const confirmDelete = confirm("האם אתה בטוח שברצונך למחוק אירוע זה?");
+      if (!confirmDelete) return;
+
+      try {
+        // מחיקת מה-DB
+        const dbRef = db.ref("Events/" + userId + "/" + eventId);
+        await dbRef.remove();
+        console.log("Event deleted from DB:", eventId);
+
+        // מחיקת קבצים מ-Storage
+        await deleteFolderInStorage(`users/${userId}/${eventId}/`);
+        console.log("Storage folder deleted:", eventId);
+
+        // הסר מהרשימה המקומית
+        eventsData = eventsData.filter(e => e.id !== eventId);
+        renderEvents();
+      } catch (err) {
+        console.error("Error deleting event:", err);
+      }
+    }
+
+    // מחיקת תיקיית Storage (רקורסיבית)
+    async function deleteFolderInStorage(folderPath) {
+      const folderRef = st.ref(folderPath);
+      const listResult = await folderRef.listAll();
+
+      // מחיקת כל הקבצים
+      const itemPromises = listResult.items.map(itemRef => itemRef.delete());
+      await Promise.all(itemPromises);
+
+      // מחיקת תתי-תיקיות (אם יש)
+      const folderPromises = listResult.prefixes.map(subFolder => deleteFolderInStorage(subFolder.fullPath));
+      await Promise.all(folderPromises);
+    }
+
+    // ------------------------------------------
+    // עריכת אירוע
+    // ------------------------------------------
+    function editEvent(eventId) {
+      alert("מעבר למסך 'EditHome' לאירוע: " + eventId);
+    }
+  </script>
+</body>
+</html>

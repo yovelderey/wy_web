@@ -6,12 +6,14 @@
 -->
 <html lang="he">
 <head>
-	<title>Telephasic by HTML5 UP</title>
 	<meta charset="utf-8" />
+	<title>Telephasic - תפריט קבוע למעלה, לבן בהובר, עמוד הבית באמצע</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+	<!-- CSS הראשי של Telephasic -->
 	<link rel="stylesheet" href="assets/css/main.css" />
 
-	<!-- ביטול שוליים לבנים בדפדפן -->
+	<!-- מניעה של שוליים ברירת מחדל -->
 	<style>
 		html, body {
 			margin: 0;
@@ -19,59 +21,97 @@
 		}
 	</style>
 
-	<!-- סגנונות האנימציה (reveal) -->
+	<!-- עיצוב הניווט (Nav), Reveal Animations, כפתורים וכו’ -->
 	<style>
-		/*
-			שלוש מחלקות בסיסיות:
-			1) reveal (הזזה מלמטה)
-			2) reveal-left (הזזה משמאל לימין)
-			3) reveal-right (הזזה מימין לשמאל)
+		/* ======== סרגל הניווט (Nav) בגג המסך ======== */
+		#nav {
+	position: fixed;  /* כדי שיהיה למעלה באופן קבוע */
+	top: 0;
+	left: 0;
+	width: 100%;      /* פריסה מלאה לרוחב */
+	z-index: 9999;    /* מעל כל התוכן */
+	background: transparent; /* שקוף כברירת מחדל */
+	transition: background-color 0.3s ease, transform 0.3s ease; /* הוספנו transition גם ל־transform */
+	padding: 10px 0;  /* קצת מרווח אנכי */
+	transform: translateY(0); /* המצב הרגיל */
+}
 
-			כולן מופיעות תחילה שקופות ומוזזות,
-			וכאשר הן "active" הן עוברות ל-opacity: 1 ומחזירות את ה-transform ל-0.
-			משך האנימציה: 1.2 שניות.
-		*/
+/* במצב ריחוף - הצבע הופך ללבן והטקסט לשחור */
+#nav:hover {
+	background-color: #fff;
+}
+#nav:hover ul li a {
+	color: #000;
+}
+#nav.hidden {
+	transform: translateY(-100%);
+}
 
-		/* הגדרות בסיסיות זהות לשלוש המחלקות */
+		/* רשימת הכפתורים */
+		#nav ul {
+	display: flex;
+	justify-content: flex-end; /* הכפתורים לימין */
+	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	gap: 20px;
+	max-width: 1200px; /* אם תרצה להגביל רוחב */
+	margin: 0 auto;     /* מרכז אופקי של ה-inner */
+	padding: 0 20px;    /* רווח צדדי בסיסי */
+	margin-right: 50px; /* מוסיף הזזה נוספת לימין */
+}
+
+
+		/* "עמוד הבית" באמצע */
+		#nav ul li.home-center {
+			margin-left: auto;  /* דוחף אותו למרכז */
+			margin-right: auto;
+		}
+
+		/* טקסט לבן במצב רגיל */
+		#nav ul li a {
+			text-decoration: none;
+			padding: 10px 15px;
+			font-weight: bold;
+			color: #fff; /* לבן */
+			transition: color 0.3s ease;
+		}
+
+		/* מרווח מלמעלה כדי שהתוכן לא יהיה מוסתר מתחת לניווט הקבוע */
+		/* אפשר לשים ב-#header-wrapper או ב-Hero, למשל: */
+		#header-wrapper {
+			padding-top: 70px; /* כי ה-nav גובה ~60px + קצת מרווח */
+		}
+
+		/* ======== Reveal Animations ======== */
 		.reveal,
 		.reveal-left,
 		.reveal-right {
 			opacity: 0;
 			transition: all 1.2s ease;
 		}
-
-		/* הזזה מלמטה */
-		.reveal {
-			transform: translateY(50px);
-		}
+		.reveal { transform: translateY(50px); }
 		.reveal.active {
 			opacity: 1;
 			transform: translateY(0);
 		}
-
-		/* הזזה משמאל לימין */
-		.reveal-left {
-			transform: translateX(-50px);
-		}
+		.reveal-left { transform: translateX(-50px); }
 		.reveal-left.active {
 			opacity: 1;
 			transform: translateX(0);
 		}
-
-		/* הזזה מימין לשמאל */
-		.reveal-right {
-			transform: translateX(50px);
-		}
+		.reveal-right { transform: translateX(50px); }
 		.reveal-right.active {
 			opacity: 1;
 			transform: translateX(0);
 		}
 
-		/* סידור הסרטונים לרוחב, ללא מרווח מיוחד מהשוליים */
+		/* גלריה וסרטונים */
 		.tutorials-container {
 			display: flex;
 			flex-wrap: wrap;
-			gap: 20px; /* רווח בין הסרטונים עצמם */
+			gap: 20px;
 			justify-content: center;
 			text-align: center;
 		}
@@ -83,51 +123,89 @@
 			width: 100%;
 			height: auto;
 		}
+
+		.actions.major {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+		}
+
+		/* רשתות חברתיות / Social links */
+		.social-links {
+			display: flex;
+			justify-content: center;
+			gap: 20px;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
 	</style>
 </head>
 
 <body class="homepage is-preload">
+	<!-- ======== עטיפת הדף (Telephasic) ======== -->
 	<div id="page-wrapper">
 
-		<!-- Header -->
+		<!-- === סרגל הניווט - קבוע בצמוד לטופ (fixed) === -->
+		<nav id="nav">
+			<ul>
+				<!-- כפתורים מימין -->
+				<li class="contact1"><a href="#hero">EasyVent</a></li>
+
+				<li><a href="#contact1">צור קשר</a></li>
+				<li><a href="#login1">התחבר למערכת</a></li>
+				<li><a href="#pricing1">חבילות ומחירים</a></li>
+
+				<!-- עמוד הבית באמצע -->
+			</ul>
+		</nav>
+
+		<!-- ======== Header עם וידאו רקע ======== -->
 		<div id="header-wrapper">
 			<div class="video-background">
 				<video autoplay loop muted playsinline controls>
 					<source src="images/mainvideo.MP4" type="video/mp4">
-					הדפדפן שלך אינו תומך בניגון וידאו.
+					הדפדפן שלך אינו תומך בתג וידאו.
 				</video>
-			</div>
-			<div id="header" class="container">
-				<!-- Logo -->
-				<h1 id="logo"><a href="index.html">עמוד הבית</a></h1>
-
-				<!-- Nav -->
-				<nav id="nav">
-					<ul>
-						<li><a href="#">הדרכה</a></li>
-						<li><a href="no-sidebar.html">צור קשר</a></li>
-						<li class="break"><a href="right-sidebar.html">התחבר למערכת</a></li>
-						<li><a href="no-sidebar.html">חבילות ומחירים</a></li>
-					</ul>
-				</nav>
 			</div>
 
 			<!-- Hero -->
 			<section id="hero" class="container">
 				<ul class="actions">
-					<li><a href="https://wa.me/972542455869?text=שלום,%20אני%20מעוניין%20במידע%20נוסף" class="button" target="_blank">לפרטים נוספים</a>
+					<li>
+						<a href="https://wa.me/972542455869?text=שלום,%20אני%20מעוניין%20במידע%20נוסף" class="button" target="_blank">לפרטים נוספים</a>
 					</li>
 				</ul>
 			</section>
-			
 		</div>
 
+		<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
+		<div class="wrapper" id="extraServices" style="display: none;">
+			<section class="container">
+				<header class="major reveal">
+					<h2>שירותים נוספים</h2>
+				</header>
+				<div class="row features reveal">
+					<section class="col-4 col-12-narrower feature">
+						<h3>שירות נוסף 1</h3>
+						<p>תיאור קצר על שירות נוסף 1.</p>
+					</section>
+					<section class="col-4 col-12-narrower feature">
+						<h3>שירות נוסף 2</h3>
+						<p>תיאור קצר על שירות נוסף 2.</p>
+					</section>
+					<section class="col-4 col-12-narrower feature">
+						<h3>שירות נוסף 3</h3>
+						<p>תיאור קצר על שירות נוסף 3.</p>
+					</section>
+				</div>
+			</section>
+		</div>
 
-
-		<!-- Features 0 -->
+		<!-- ======== Features 0 - השורות הראשונות ======== -->
 		<div class="wrapper">
 			<section class="container">
-				<!-- כאן משתמשים באנימציה מלמטה -->
 				<header class="major reveal">
 					<h2>השירותים שלנו</h2>
 				</header>
@@ -150,6 +228,7 @@
 						</div>
 						<h1>ניהול אירוע</h1>
 					</section>
+
 					<section class="col-4 col-12-narrower feature reveal-left">
 						<div class="image-wrapper">
 							<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
@@ -170,12 +249,24 @@
 					</section>
 				</div>
 				<ul class="actions major reveal">
-					<li><a href="#" class="button">שירותים נוספים</a></li>
+					<li><a href="#" class="button" id="extraServicesBtn">שירותים נוספים</a></li>
 				</ul>
 			</section>
 		</div>
 
-		<!-- Features 1 -->
+		<!-- ======== קטע placeholder - חבילות ומחירים ======== -->
+		<div class="wrapper" id="pricing">
+			<section class="container reveal">
+				<header class="major">
+					<h2>חבילות ומחירים</h2>
+				</header>
+				<p>כאן תוכל לפרט על החבילות והמחרים...</p>
+			</section>
+		</div>
+
+
+
+		<!-- ======== Features 1 - קצת עלינו ======== -->
 		<div class="wrapper">
 			<div class="container">
 				<header class="major reveal">
@@ -190,9 +281,8 @@
 							<h2>EasyVent</h2>
 						</header>
 						<p>
-							איזי וונט הגיע אלינו מצורך והבנה עמוקה שחתונה היום הינה עסק יקר, ואנו באנו להוריד מחירים ולתת שירות מקצועי וטוב לצרכן.
-							את הפלטפורמה הנגשנו בצורה קלה ויעילה ותוכלו למצוא אותנו גם בחנות האפליקציות גוגל פליי ואפסטור,
-							אנו משלבים את כל העולמות יחד בכך שאספנו מידע מזוגות עבר ויישמנו בתוך האפליקציה כדי לתת מענה מקצועי ומקיף.
+							איזי וונט הגיע אלינו מצורך והבנה עמוקה שחתונה היום הינה עסק יקר,
+							ואנו באנו להוריד מחירים ולתת שירות מקצועי וטוב לצרכן...
 						</p>
 						<ul class="actions">
 							<li><a href="#" class="button">לעמוד הבית</a></li>
@@ -206,9 +296,8 @@
 							<h2>יובל טכנולוגיות</h2>
 						</header>
 						<p>
-							אנו חברה שעוסקת בפתרונות תוכנה, פיתוח אתרים, אוטומציה ופיתוח שבבים.
-							כיום פיתחנו מערכות הגנה ואוטומציה לארגונים שונים בתחום הסלולר,
-							ניתן לקבוע איתנו פגישה דרך האתר או בכפתור ״צור קשר״.
+							אנו חברה שעוסקת בפתרונות תוכנה, פיתוח אתרים, אוטומציה ופיתוח שבבים...
+							ניתן לקבוע איתנו פגישה דרך האתר או בכפתור "צור קשר".
 						</p>
 						<ul class="actions">
 							<li><a href="#" class="button">לאתר החברה</a></li>
@@ -218,22 +307,24 @@
 			</div>
 		</div>
 
-		<!-- Promo -->
+		<!-- ======== Promo כלשהו ======== -->
 		<div id="promo-wrapper" class="reveal">
-			<h3>חפשו אותנו בחנות האפליקציות<br /></h3>
+			<h3>חפשו אותנו בחנות האפליקציות</h3>
 			<section id="promo">
 				<a href="#" class="image featu1red"><img src="images/iosback.png" alt="" /></a>
 				<a href="#" class="image featu1red"><img src="images/googleback.png" alt="" /></a>
 			</section>
 		</div>
 
-		<!-- Features 2: גלריית תמונות -->
+		<!-- ======== Features 2: גלריית תמונות ======== -->
 		<div class="wrapper">
 			<section class="container">
 				<header class="major reveal">
 					<h2>גלריית תמונות</h2>
 				</header>
-				<div class="row features reveal">
+
+				<!-- שורה ראשונה -->
+				<div class="row features reveal" id="gallery-row-1">
 					<section class="col-4 col-12-narrower feature">
 						<div class="image-wrapper first">
 							<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
@@ -250,76 +341,103 @@
 						</div>
 					</section>
 				</div>
+
+				<!-- שתי שורות נוספות מוסתרות -->
+				<div class="row features reveal" id="gallery-row-2" style="display: none;">
+					<section class="col-4 col-12-narrower feature">
+						<div class="image-wrapper">
+							<a href="#" class="image featured"><img src="images/pic06.jpg" alt="" /></a>
+						</div>
+					</section>
+					<section class="col-4 col-12-narrower feature">
+						<div class="image-wrapper">
+							<a href="#" class="image featured"><img src="images/pic07.jpg" alt="" /></a>
+						</div>
+					</section>
+					<section class="col-4 col-12-narrower feature">
+						<div class="image-wrapper">
+							<a href="#" class="image featured"><img src="images/pic08.jpg" alt="" /></a>
+						</div>
+					</section>
+				</div>
+
+				<div class="row features reveal" id="gallery-row-3" style="display: none;">
+					<section class="col-4 col-12-narrower feature">
+						<div class="image-wrapper">
+							<a href="#" class="image featured"><img src="images/pic09.jpg" alt="" /></a>
+						</div>
+					</section>
+					<section class="col-4 col-12-narrower feature">
+						<div class="image-wrapper">
+							<a href="#" class="image featured"><img src="images/pic10.jpg" alt="" /></a>
+						</div>
+					</section>
+					<section class="col-4 col-12-narrower feature">
+						<div class="image-wrapper">
+							<a href="#" class="image featured"><img src="images/pic11.jpg" alt="" /></a>
+						</div>
+					</section>
+				</div>
+
 				<ul class="actions major reveal">
-					<li><a href="#" class="button">לחץ לעוד תמונות</a></li>
+					<li><a href="#" class="button" id="showMoreImagesBtn">לחץ לעוד תמונות</a></li>
 				</ul>
 			</section>
 		</div>
 
-		
-		<!-- הדרכות -->
-		<header class="major reveal">
+		<!-- ======== אזור הדרכות ======== -->
+		<header class="major reveal" id="tutorials">
 			<h2>הדרכות</h2>
 			<h4>נשמח לשמוע ממכם ולשתף פעולה יחד, מוזמנים ליצור איתנו קשר באחת הפלטפורמות השונות</h4>
 		</header>
 
 		<div class="tutorials-container reveal">
-			<!-- הדרכת התחברות והרשמה -->
+			<!-- הדרכות לדוגמה -->
 			<section>
 				<h3>התחברות והרשמה</h3>
 				<video controls poster="images/googleback.png">
 					<source src="videos/bosa.mp4" type="video/mp4" />
-					הדפדפן שלך לא תומך בתג הווידאו.
+					הדפדפן שלך לא תומך בתג וידאו.
 				</video>
 			</section>
-
-			<!-- הדרכת הוספת אורחים -->
 			<section>
 				<h3>הוספת אורחים</h3>
 				<video controls poster="images/googleback.png">
 					<source src="videos/tutorial-guests.mp4" type="video/mp4" />
-					הדפדפן שלך לא תומך בתג הווידאו.
+					הדפדפן שלך לא תומך בתג וידאו.
 				</video>
 			</section>
-
-			<!-- הדרכת ניהול תקציב -->
 			<section>
 				<h3>ניהול תקציב</h3>
 				<video controls poster="images/googleback.png">
 					<source src="videos/tutorial-budget.mp4" type="video/mp4" />
-					הדפדפן שלך לא תומך בתג הווידאו.
+					הדפדפן שלך לא תומך בתג וידאו.
 				</video>
 			</section>
-
-			<!-- הדרכת שיתוף ועדכון -->
 			<section>
 				<h3>שיתוף ועדכון</h3>
 				<video controls poster="images/googleback.png">
 					<source src="videos/tutorial-share.mp4" type="video/mp4" />
-					הדפדפן שלך לא תומך בתג הווידאו.
+					הדפדפן שלך לא תומך בתג וידאו.
 				</video>
 			</section>
-
-			<!-- הדרכת תפעול האפליקציה -->
 			<section>
 				<h3>תפעול האפליקציה</h3>
 				<video controls poster="images/googleback.png">
 					<source src="videos/tutorial-usage.mp4" type="video/mp4" />
-					הדפדפן שלך לא תומך בתג הווידאו.
+					הדפדפן שלך לא תומך בתג וידאו.
 				</video>
 			</section>
-
-			<!-- הדרכת טיפים כלליים -->
 			<section>
 				<h3>טיפים כלליים</h3>
 				<video controls poster="images/googleback.png">
 					<source src="videos/tutorial-tips.mp4" type="video/mp4" />
-					הדפדפן שלך לא תומך בתג הווידאו.
+					הדפדפן שלך לא תומך בתג וידאו.
 				</video>
 			</section>
 		</div>
 
-		<!-- Features 1 - בואו נתחיל -->
+		<!-- ======== בואו נתחיל ======== -->
 		<div class="wrapper">
 			<div class="container">
 				<header class="major reveal">
@@ -331,8 +449,7 @@
 							קדימה, בואו נתחיל!<br>
 							ראשית, נרשמים באמצעות כפתור "הרשמה" באתר או באפליקציה הזמינה בחנות האפליקציות.<br>
 							לאחר השלמת הרישום, מתחברים למערכת עם פרטי המשתמש החדשים שלנו.<br>
-							כעת, ניתן ליצור אירוע חדש: לוחצים על "צור אירוע חדש" וממלאים את הפרטים הנדרשים כגון שם האירוע, תאריך ושעה, מיקום ותיאור קצר.<br>
-							וזה הכול – ברגע שסיימנו למלא את הפרטים, אפשר להתחיל!
+							כעת, ניתן ליצור אירוע חדש: לוחצים על "צור אירוע חדש" וממלאים את הפרטים...
 						</p>
 						<ul class="actions">
 							<li><a href="#" class="button">הרשמה/התחברות</a></li>
@@ -347,40 +464,36 @@
 			</div>
 		</div>
 
-		<!-- Footer -->
+		<!-- ======== Footer - צור קשר ======== -->
 		<div id="footer-wrapper">
-			<div id="footer" class="container">
-				<header class="major reveal">
+			<!-- אזור צרו קשר (#contact) -->
+			<div id="contact" class="container">
+				<header class="major reveal" style="text-align: center;">
 					<h2>צור קשר</h2>
 					<h4>נשמח לשמוע ממכם ולשתף פעולה יחד, מוזמנים ליצור איתנו קשר באחת הפלטפורמות השונות</h4>
 				</header>
-				<div class="row reveal">
-					<section class="col-6 col-12-narrower">
-						<div class="row gtr-0">
-							<ul class="divided icons col-6 col-12-mobile">
-								<li class="icon brands fa-facebook-f"><a href="#"><span class="extra">facebook.com/</span>untitled</a></li>
-							</ul>
-							<ul class="divided icons col-6 col-12-mobile">
-								<li class="icon brands fa-instagram"><a href="#"><span class="extra">instagram.com/</span>untitled</a></li>
-							</ul>
-							<ul class="divided icons col-6 col-12-mobile">
-								<li class="icon brands fa-dribbble"><a href="#"><span class="extra">dribbble.com/</span>untitled</a></li>
-							</ul>
-						</div>
+				<div class="row reveal" style="text-align: center;">
+					<section class="col-12 col-12-narrower">
+						<ul class="icons social-links">
+							<li class="icon brands fa-facebook-f"><a href="#"><span class="extra">facebook.com/</span>untitled</a></li>
+							<li class="icon brands fa-instagram"><a href="#"><span class="extra">instagram.com/</span>untitled</a></li>
+							<li class="icon brands fa-dribbble"><a href="#"><span class="extra">dribbble.com/</span>untitled</a></li>
+						</ul>
 					</section>
 				</div>
 			</div>
 			
-			<div id="copyright" class="container">
-				<ul class="menu">
+			<div class="container" style="margin-top: 1em; text-align: center;">
+				<ul class="menu" style="list-style: none; margin:0; padding:0;">
 					<li>&copy; כל הזכויות שמורות ליובל טכנולוגיות</li>
 					<li>פותח על יד יובל דרעי</li>
 				</ul>
 			</div>
 		</div>
-	</div>
 
-	<!-- Scripts הבסיס של התבנית -->
+	</div> <!-- /page-wrapper -->
+
+	<!-- ======== Scripts של התבנית Telephasic ======== -->
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/jquery.dropotron.min.js"></script>
 	<script src="assets/js/browser.min.js"></script>
@@ -388,43 +501,81 @@
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
 
-	<!-- Intersection Observer לצורך האנימציות -->
+	<!-- Intersection Observer לאפקטי Reveal (reveal, reveal-left, reveal-right) -->
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
-			// בוחרים את כל האלמנטים שיש להם אחת ממחלקות האנימציה
 			const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-
-			// מקימים Observer עם threshold 0.1 (10%)
 			const observer = new IntersectionObserver((entries) => {
 				entries.forEach(entry => {
 					if (entry.isIntersecting) {
-						// אם האלמנט נכנס לפריים, נוסיף לו active
 						entry.target.classList.add('active');
 					} else {
-						// אם האלמנט יוצא מהפריים, נסיר את המחלקה active
 						entry.target.classList.remove('active');
 					}
 				});
 			}, { threshold: 0.2 });
 
-			// מאזינים לכל האלמנטים
 			allReveals.forEach(el => observer.observe(el));
 		});
 	</script>
 
-	<!-- כפתור נגישות עם 6 פונקציות (למטה מימין) -->
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+	  const nav = document.getElementById('nav');
+	  let prevScroll = window.scrollY;      // נקודת גלילה קודמת
+	  let hidePos = 0;                      // איפה הוסתר הסרגל
+	  let isHidden = false;                 // האם הסרגל מוסתר כעת
+	  const hideNavDistanceFromTop = 300;   // רק מעל 300px נתחיל "להעלים" את הסרגל
+	  const scrollUpThreshold = 100;        // כמה פיקסלים צריך לגלול למעלה כדי להחזיר את הסרגל
+  
+	  window.addEventListener('scroll', function() {
+		const currentScroll = window.scrollY;
+  
+		// אם אנחנו עדיין קרובים לראש הדף (פחות מ-300px), תמיד נראה את הסרגל
+		if (currentScroll < hideNavDistanceFromTop) {
+		  nav.classList.remove('hidden');
+		  isHidden = false;
+		  prevScroll = currentScroll;
+		  return;
+		}
+  
+		// בדיקת כיוון הגלילה
+		if (currentScroll > prevScroll) {
+		  // גלילה כלפי מטה
+		  if (!isHidden) {
+			nav.classList.add('hidden');
+			isHidden = true;
+			hidePos = currentScroll; // שומרים איפה הוסתר הסרגל
+		  }
+		} else {
+		  // גלילה כלפי מעלה
+		  if (isHidden) {
+			// לבדוק האם כבר גללנו מספיק מעלה מהנקודה שבה הוסתר הסרגל
+			if (hidePos - currentScroll >= scrollUpThreshold) {
+			  nav.classList.remove('hidden');
+			  isHidden = false;
+			}
+		  }
+		}
+  
+		prevScroll = currentScroll;
+	  });
+	});
+  </script>
+  
+  
+	<!-- כפתור נגישות (6 פונקציות): זום, צבעים וכו' -->
 	<style>
-		/* סגנונות לכפתור ותפריט הנגישות */
 		.accessibility-btn {
 			position: fixed;
 			right: 20px;
 			bottom: 20px;
 			z-index: 9999;
-			background: #f6f8fb url("images/accssbi.png");
+			background: #f6f8fb url("images/accssbi.png") no-repeat center;
 			border-radius: 10px;
 			height: 54px;
 			width: 50px;
-
 			box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 		}
 		.accessibility-btn:hover {
@@ -432,7 +583,7 @@
 		}
 		.accessibility-menu {
 			position: fixed;
-			bottom: 90px; /* מעל הכפתור */
+			bottom: 90px;
 			right: 20px;
 			width: 200px;
 			background: #f8f8f8;
@@ -440,11 +591,11 @@
 			border-radius: 8px;
 			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 			padding: 10px;
-			display: none; /* מוסתר ברירת מחדל */
+			display: none;
 			z-index: 9998;
 		}
 		.accessibility-menu.active {
-			display: block; /* מוצג כאשר התפריט נפתח */
+			display: block;
 		}
 		.accessibility-menu h3 {
 			margin: 0 0 10px;
@@ -464,13 +615,9 @@
 		.accessibility-menu button:hover {
 			background: #ddd;
 		}
-
-		/* הגדלת טקסט */
 		body.large-text * {
 			font-size: 120% !important;
 		}
-
-		/* ניגודיות גבוהה */
 		body.high-contrast {
 			background-color: #000 !important;
 			color: #fff !important;
@@ -478,108 +625,128 @@
 		body.high-contrast a {
 			color: #0ff !important;
 		}
-
-		/* גווני אפור */
 		body.grayscale {
 			filter: grayscale(100%);
 		}
-
-		/* היפוך צבעים */
 		body.inverted {
 			filter: invert(100%);
 		}
-
-		/* זום באמצעות scale (דוגמה) */
 		.zoomed {
 			transform: scale(1.2);
 			transform-origin: top left;
 		}
 	</style>
-
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
-			// הוספה דינמית של הכפתור והתפריט
+			// מוסיף דינמית את הכפתור והתפריט
 			document.body.insertAdjacentHTML('beforeend', `
 				<button class="accessibility-btn" id="accessibilityBtn" title="תפריט נגישות"></button>
 				<div class="accessibility-menu" id="accessibilityMenu">
-				  <h3>תפריט נגישות</h3>
-				  <button id="increaseTextBtn">הגדלת טקסט</button>
-				  <button id="toggleContrastBtn">ניגודיות גבוהה</button>
-				  <button id="toggleGrayscaleBtn">גווני אפור</button>
-				  <button id="toggleInvertBtn">היפוך צבעים</button>
-				  <button id="toggleInvertBtn1">זום אין</button>
-				  <button id="toggleInvertBtn2">זום אאוט</button>
-
-				  <hr>
-				  <button id="resetAllBtn">איפוס</button>
+					<h3>תפריט נגישות</h3>
+					<button id="increaseTextBtn">הגדלת טקסט</button>
+					<button id="toggleContrastBtn">ניגודיות גבוהה</button>
+					<button id="toggleGrayscaleBtn">גווני אפור</button>
+					<button id="toggleInvertBtn">היפוך צבעים</button>
+					<button id="toggleInvertBtn1">זום אין</button>
+					<button id="toggleInvertBtn2">זום אאוט</button>
+					<hr>
+					<button id="resetAllBtn">איפוס</button>
 				</div>
 			`);
 
-			// בוחרים את הכפתור והתפריט
 			const accessibilityBtn = document.getElementById('accessibilityBtn');
 			const accessibilityMenu = document.getElementById('accessibilityMenu');
-
-			// פתיחה/סגירה של התפריט
 			let menuOpen = false;
 			accessibilityBtn.addEventListener('click', () => {
 				menuOpen = !menuOpen;
 				accessibilityMenu.classList.toggle('active', menuOpen);
 			});
 
-			// כפתורי הפונקציות
 			const increaseTextBtn = document.getElementById('increaseTextBtn');
 			const toggleContrastBtn = document.getElementById('toggleContrastBtn');
 			const toggleGrayscaleBtn = document.getElementById('toggleGrayscaleBtn');
 			const toggleInvertBtn = document.getElementById('toggleInvertBtn');
 			const toggleInvertBtn1 = document.getElementById('toggleInvertBtn1');
 			const toggleInvertBtn2 = document.getElementById('toggleInvertBtn2');
-
-			const zoomPageBtn = document.getElementById('zoomPageBtn');
 			const resetAllBtn = document.getElementById('resetAllBtn');
 
 			// הגדלת טקסט
 			increaseTextBtn.addEventListener('click', () => {
 				document.body.classList.toggle('large-text');
 			});
-
-
 			// ניגודיות גבוהה
 			toggleContrastBtn.addEventListener('click', () => {
 				document.body.classList.toggle('high-contrast');
 			});
-
 			// גווני אפור
 			toggleGrayscaleBtn.addEventListener('click', () => {
 				document.body.classList.toggle('grayscale');
 			});
-
 			// היפוך צבעים
 			toggleInvertBtn.addEventListener('click', () => {
 				document.body.classList.toggle('inverted');
 			});
-
-			// זום
+			// זום אין
 			toggleInvertBtn1.addEventListener('click', () => {
 				document.body.style.zoom = (parseFloat(document.body.style.zoom || 1) + 0.1).toString();
 			});
-
+			// זום אאוט
 			toggleInvertBtn2.addEventListener('click', () => {
 				document.body.style.zoom = (parseFloat(document.body.style.zoom || 1) - 0.1).toString();
 			});
-
 			// איפוס
 			resetAllBtn.addEventListener('click', () => {
-				document.body.classList.remove(
-					'large-text',
-					'high-contrast',
-					'grayscale',
-					'inverted',
-					'zoomed'
-				);
-				isZoomed = false;
+				document.body.classList.remove('large-text','high-contrast','grayscale','inverted','zoomed');
+				document.body.style.zoom = '1';
 			});
 		});
 	</script>
 
+	<!-- סקריפט עבור "לחץ לעוד תמונות" -->
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const showMoreBtn = document.getElementById('showMoreImagesBtn');
+			const galleryRow2 = document.getElementById('gallery-row-2');
+			const galleryRow3 = document.getElementById('gallery-row-3');
+
+			let isShown = false;
+			showMoreBtn?.addEventListener('click', (e) => {
+				e.preventDefault();
+				if (!isShown) {
+					galleryRow2.style.display = 'flex';
+					galleryRow3.style.display = 'flex';
+					isShown = true;
+					showMoreBtn.textContent = 'סגור תמונות';
+				} else {
+					galleryRow2.style.display = 'none';
+					galleryRow3.style.display = 'none';
+					isShown = false;
+					showMoreBtn.textContent = 'לחץ לעוד תמונות';
+				}
+			});
+		});
+	</script>
+
+	<!-- סקריפט לכפתור "שירותים נוספים" -->
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const extraServicesBtn = document.getElementById('extraServicesBtn');
+			const extraServices = document.getElementById('extraServices');
+			let open = false;
+
+			extraServicesBtn?.addEventListener('click', (e) => {
+				e.preventDefault();
+				if(!open) {
+					extraServices.style.display = 'block';
+					extraServicesBtn.textContent = 'סגור שירותים נוספים';
+					open = true;
+				} else {
+					extraServices.style.display = 'none';
+					extraServicesBtn.textContent = 'שירותים נוספים';
+					open = false;
+				}
+			});
+		});
+	</script>
 </body>
 </html>

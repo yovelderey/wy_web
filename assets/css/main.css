@@ -2306,6 +2306,8 @@ input, select, textarea {
 		color: #fff;
 		text-align: center;
 		z-index: 1;
+		top: 420px; /* משנה את המיקום כלפי מטה */
+
 	}
 
 		#hero h2 {

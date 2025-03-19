@@ -91,6 +91,12 @@
 
 		<!-- Header -->
 		<div id="header-wrapper">
+			<div class="video-background">
+				<video autoplay loop muted playsinline controls>
+					<source src="images/mainvideo.MP4" type="video/mp4">
+					הדפדפן שלך אינו תומך בניגון וידאו.
+				</video>
+			</div>
 			<div id="header" class="container">
 				<!-- Logo -->
 				<h1 id="logo"><a href="index.html">עמוד הבית</a></h1>
@@ -115,6 +121,8 @@
 			</section>
 			
 		</div>
+
+
 
 		<!-- Features 0 -->
 		<div class="wrapper">
@@ -248,6 +256,7 @@
 			</section>
 		</div>
 
+		
 		<!-- הדרכות -->
 		<header class="major reveal">
 			<h2>הדרכות</h2>
@@ -396,7 +405,7 @@
 						entry.target.classList.remove('active');
 					}
 				});
-			}, { threshold: 0.1 });
+			}, { threshold: 0.2 });
 
 			// מאזינים לכל האלמנטים
 			allReveals.forEach(el => observer.observe(el));
@@ -498,7 +507,9 @@
 				  <button id="toggleContrastBtn">ניגודיות גבוהה</button>
 				  <button id="toggleGrayscaleBtn">גווני אפור</button>
 				  <button id="toggleInvertBtn">היפוך צבעים</button>
-				  <button id="zoomPageBtn">זום</button>
+				  <button id="toggleInvertBtn1">זום אין</button>
+				  <button id="toggleInvertBtn2">זום אאוט</button>
+
 				  <hr>
 				  <button id="resetAllBtn">איפוס</button>
 				</div>
@@ -520,6 +531,9 @@
 			const toggleContrastBtn = document.getElementById('toggleContrastBtn');
 			const toggleGrayscaleBtn = document.getElementById('toggleGrayscaleBtn');
 			const toggleInvertBtn = document.getElementById('toggleInvertBtn');
+			const toggleInvertBtn1 = document.getElementById('toggleInvertBtn1');
+			const toggleInvertBtn2 = document.getElementById('toggleInvertBtn2');
+
 			const zoomPageBtn = document.getElementById('zoomPageBtn');
 			const resetAllBtn = document.getElementById('resetAllBtn');
 
@@ -527,6 +541,7 @@
 			increaseTextBtn.addEventListener('click', () => {
 				document.body.classList.toggle('large-text');
 			});
+
 
 			// ניגודיות גבוהה
 			toggleContrastBtn.addEventListener('click', () => {
@@ -544,14 +559,12 @@
 			});
 
 			// זום
-			let isZoomed = false;
-			zoomPageBtn.addEventListener('click', () => {
-				isZoomed = !isZoomed;
-				if (isZoomed) {
-					document.body.classList.add('zoomed');
-				} else {
-					document.body.classList.remove('zoomed');
-				}
+			toggleInvertBtn1.addEventListener('click', () => {
+				document.body.style.zoom = (parseFloat(document.body.style.zoom || 1) + 0.1).toString();
+			});
+
+			toggleInvertBtn2.addEventListener('click', () => {
+				document.body.style.zoom = (parseFloat(document.body.style.zoom || 1) - 0.1).toString();
 			});
 
 			// איפוס

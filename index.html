@@ -128,7 +128,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			gap: 20px;
+			gap: 0px;
 		}
 
 		/* רשתות חברתיות / Social links */
@@ -140,6 +140,17 @@
 			padding: 0;
 			margin: 0;
 		}
+		li.contact1 a {
+      font-size: 26px;                    /* הגדלת גודל הפונט */
+      font-family: 'Open Sans', sans-serif; /* שימוש בגופן Open Sans */
+      font-weight: 700;                   /* הדגשה */
+      color: #ffd700;                     /* צבע לדוגמה (אפשר לשנות כרצונך) */
+    }
+
+    /* שאר הסגנונות שלך */
+    #header-wrapper {
+      padding-top: 70px;
+    }
 	</style>
 </head>
 
@@ -150,14 +161,12 @@
 		<!-- === סרגל הניווט - קבוע בצמוד לטופ (fixed) === -->
 		<nav id="nav">
 			<ul>
-				<!-- כפתורים מימין -->
-				<li class="contact1"><a href="#hero">EasyVent</a></li>
+				<!-- כפתור עם העיצוב הייחודי -->
+				<img src="images/easyventtextPhotoroom.png" alt="EasyVent" style="width: 150px; height: auto;">
+				<li class="nav-left"><a href="#contact">צור קשר</a></li>
+				<li class="nav-left"><a href="right-sidebar.html">התחבר למערכת</a></li>
+				<li class="nav-left"><a href="#pricing">חבילות ומחירים</a></li>
 
-				<li><a href="#contact1">צור קשר</a></li>
-				<li><a href="#login1">התחבר למערכת</a></li>
-				<li><a href="#pricing1">חבילות ומחירים</a></li>
-
-				<!-- עמוד הבית באמצע -->
 			</ul>
 		</nav>
 
@@ -174,11 +183,29 @@
 			<section id="hero" class="container">
 				<ul class="actions">
 					<li>
-						<a href="https://wa.me/972542455869?text=שלום,%20אני%20מעוניין%20במידע%20נוסף" class="button" target="_blank">לפרטים נוספים</a>
+						<a href="https://wa.me/972542455869?text=שלום,%20אני%20מעוניין%20במידע%20נוסף" class="button" target="_blank">!צור קשר עכשיו</a>
 					</li>
 				</ul>
 			</section>
 		</div>
+
+		<div style="text-align: center; padding: 20px; margin-top: 100px;">
+			<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+			  ?מתכננים אירוע בקרוב
+			</p>
+			<p style="font-size: 1.5em; color: #444; margin-bottom: 20px;">
+			  ?רוצים לדעת בדיוק כמה אורחים יגיעו לשמוח איתכם
+			</p>
+			<p style="font-size: 1.5em; color: #444; margin-bottom: 15px;">
+			  .הכירו מערכת פורצת דרך לאישורי הגעה, הפועלת בווצאפ ובטלפון, אשר נבנתה במיוחד למארגני אירועים
+			</p>
+			<p style="font-size: 1.3em; color: #555;">
+			  בממשק ידידותי ונוח, כל אורח מקבל הנחיות ברורות, ואתם נהנים מתכנון מוקפד ורגוע. הצטרפו אלינו והפכו את האירוע שלכם לחוויה בלתי נשכחת
+			</p>
+		  </div>
+		  
+		  
+		  
 
 		<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
 		<div class="wrapper" id="extraServices" style="display: none;">
@@ -254,16 +281,187 @@
 			</section>
 		</div>
 
-		<!-- ======== קטע placeholder - חבילות ומחירים ======== -->
-		<div class="wrapper" id="pricing">
-			<section class="container reveal">
-				<header class="major">
-					<h2>חבילות ומחירים</h2>
-				</header>
-				<p>כאן תוכל לפרט על החבילות והמחרים...</p>
-			</section>
+<!-- קטע חבילות ומחירים -->
+<div class="wrapper" id="pricing">
+	<section class="container">
+		<header class="major">
+		<h2>חבילות ומחירים</h2>
+	  </header>
+	  
+	  <div class="pricing-container">
+		<!-- חבילה משלימה -->
+		<div class="package">
+		  <h3>חבילה משלימה</h3>
+		  <div class="package-details">
+			<p><strong>כוללת תהליך שלם:</strong></p>
+			<ul>
+			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+			  <li>✅ שיחות לאורחים שלא אישרו הגעה ע"י מוקד אנושי</li>
+			  <li>✅ סידור שולחנות ביום האירוע <span class="highlight">אוטומטי</span></li>
+			  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
+			</ul>
+			<p><strong>כוללת גם:</strong></p>
+			<ul>
+			  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
+			  <li>✅ צוות EasyVent לאירוע (לא כולל אילת)</li>
+			</ul>
+		  </div>
+		  <div class="package-icons">
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב ראשון</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב שני</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/phone-call.png" alt="Phone Icon">
+			  <span>סבב טלפוני</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>תזכורת</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>תודה רבה</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/stewardess.png" alt="Stewardess Icon">
+			  <span>מארחת</span>
+			</div>
+		  </div>
+		  <div class="package-price">
+			<p class="price">רק ב- <strong>תמחיר</strong>₪</p>
+			<p>(<strong>Numberofguests</strong> x 1.7 = <strong>תמחיר</strong>₪)</p>
+			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
+		  </div>
+		  <button class="purchase-button">רכישה</button>
 		</div>
-
+		
+		<!-- חבילה בסיסית -->
+		<div class="package">
+		  <h3>חבילה בסיסית</h3>
+		  <div class="package-details">
+			<p><strong>כוללת תהליך שלם:</strong></p>
+			<ul>
+			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+			  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
+			</ul>
+		  </div>
+		  <div class="package-icons">
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב ראשון</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב שני</span>
+			</div>
+		  </div>
+		  <div class="package-price">
+			<p class="price">רק ב- <strong>תמחיר2</strong>₪</p>
+			<p>(<strong>Numberofguests</strong> x 0.4 = <strong>תמחיר2</strong>₪)</p>
+			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
+		  </div>
+		  <button class="purchase-button">רכישה</button>
+		</div>
+		
+		<!-- חבילה פלוס -->
+		<div class="package">
+		  <h3>חבילה פלוס</h3>
+		  <div class="package-details">
+			<p><strong>כוללת תהליך שלם:</strong></p>
+			<ul>
+			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+			  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
+			  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
+			</ul>
+			<p><strong>כוללת גם:</strong></p>
+			<ul>
+			  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
+			</ul>
+		  </div>
+		  <div class="package-icons">
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב ראשון</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב שני</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>תזכורת</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>תודה רבה</span>
+			</div>
+		  </div>
+		  <div class="package-price">
+			<p class="price">רק ב- <strong>תמחיר3</strong>₪</p>
+			<p>(<strong>Numberofguests</strong> x 0.65 = <strong>תמחיר3</strong>₪)</p>
+			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
+		  </div>
+		  <button class="purchase-button">רכישה</button>
+		</div>
+		
+		<!-- חבילה דיגיטלית -->
+		<div class="package">
+		  <h3>חבילה דיגיטלית</h3>
+		  <div class="package-details">
+			<p><strong>כוללת תהליך שלם:</strong></p>
+			<ul>
+			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+			  <li>✅ שיחות לאורחים שלא אישרו הגעה ע"י מוקד אנושי</li>
+			  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
+			  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
+			</ul>
+			<p><strong>כוללת גם:</strong></p>
+			<ul>
+			  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
+			</ul>
+		  </div>
+		  <div class="package-icons">
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב ראשון</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>סבב שני</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/phone-call.png" alt="Phone Icon">
+			  <span>סבב טלפוני</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>תזכורת</span>
+			</div>
+			<div class="icon-item">
+			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
+			  <span>תודה רבה</span>
+			</div>
+		  </div>
+		  <div class="package-price">
+			<p class="price">רק ב- <strong>תמחיר4</strong>₪</p>
+			<p>(<strong>Numberofguests</strong> x 0.8 = <strong>תמחיר4</strong>₪)</p>
+			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
+		  </div>
+		  <button class="purchase-button">רכישה</button>
+		</div>
+	  </div>
+	</section>
+  </div>
+  
 
 
 		<!-- ======== Features 1 - קצת עלינו ======== -->

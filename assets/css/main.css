@@ -2306,7 +2306,7 @@ input, select, textarea {
 		color: #fff;
 		text-align: center;
 		z-index: 1;
-		top: 420px; /* משנה את המיקום כלפי מטה */
+		top: 350px; /* משנה את המיקום כלפי מטה */
 
 	}
 
@@ -3139,4 +3139,101 @@ input, select, textarea {
 		width: 100%;     /* ממלא את רוחב הקונטיינר */
 		height: auto;    /* שומר על יחס אורך-רוחב נכון */
 	  }
+	  #nav ul li:not(.contact1) a {
+		position: relative;
+		top: -10px; /* מעלה את הכפתור ב-5 פיקסלים, ניתן לשנות לפי הצורך */
+	}
+	/* מכולת החבילות */
+	.pricing-container {
+		display: flex;
+		flex-wrap: nowrap;           /* מונע שבירה לשורות נוספות */
+		gap: 0px;
+		justify-content: center;
+		margin-top: 0px;
+		overflow-x: auto;           /* במקרה שהמסך קטן – מתאפשר גלילה אופקית */
+	  }
 	  
+	  .package {
+		background: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 20px;
+		flex: 0 0 calc(25% - 20px);  /* כל חבילה תיקח כ-25% מהרוחב פחות הגאפים */
+		box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		text-align: right;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	  }
+	  
+  
+  .package h3 {
+	margin-top: 0;
+  }
+  
+  /* פירוט החבילה */
+  .package-details ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+  }
+  
+  .package-details li {
+	margin-bottom: 8px;
+	line-height: 1.4;
+  }
+  
+  /* עיצוב האייקונים */
+  .package-icons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 15px 0;
+	justify-content: center;
+  }
+  
+  .icon-item {
+	text-align: center;
+	font-size: 12px;
+  }
+  
+  .icon-item img {
+	width: 30px;
+	height: auto;
+	display: block;
+	margin: 0 auto 5px;
+  }
+  
+  /* אזור המחיר */
+  .package-price {
+	margin-bottom: 15px;
+  }
+  
+  .price {
+	font-size: 18px;
+	color: #e67e22;
+	margin: 5px 0;
+  }
+  
+  /* כפתור רכישה */
+  .purchase-button {
+	background: #e67e22;
+	border: none;
+	color: #fff;
+	padding: 10px;
+	width: 100%;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 16px;
+  }
+  
+  .purchase-button:hover {
+	background: #d35400;
+  }
+  
+  /* הדגשה */
+  .highlight {
+	color: #e67e22;
+	font-weight: bold;
+  }
+  

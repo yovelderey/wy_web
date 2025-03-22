@@ -2300,7 +2300,7 @@ input, select, textarea {
 			}
 			#hero {
 				position: absolute;
-				top: 85%; /* מרכז אנכית */
+				top: 90%; /* מרכז אנכית */
 				left: 50%; /* מרכז אופקית */
 				transform: translate(-50%, -50%);
 				text-align: center;
@@ -2329,6 +2329,13 @@ input, select, textarea {
 			  
 			  #hero .animated-link:hover::after {
 				width: 0;
+			  }
+			  .hero-title {
+				font-size: 2em; /* גודל הטקסט העליון הגדול */
+				margin-bottom: -115px; /* רווח מהכפתור שמתחת */
+				color: #fff;
+				font-weight: bold;
+
 			  }
 			  
 /* Promo */
@@ -2490,6 +2497,7 @@ input, select, textarea {
 
 		/* Header */
 
+		  
 			#nav {
 				position: relative;
 				margin: 0.5em 0 0 0;

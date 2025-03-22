@@ -153,7 +153,40 @@
     }
 	</style>
 </head>
-
+<script>
+	function toggleImageText(event, anchor) {
+	  event.preventDefault();
+	  
+	  // בדיקה אם הטקסט כבר מוצג
+	  if (anchor.getAttribute('data-is-text') === 'true') {
+		// מחזירים את התמונה המקורית
+		anchor.innerHTML = '<img src="' + anchor.getAttribute('data-img-src') + '" alt="' + anchor.getAttribute('data-alt-text') + '" />';
+		anchor.setAttribute('data-is-text', 'false');
+		return;
+	  }
+	  
+	  // אם אין נתון data-img-src, נשמור את מקור התמונה
+	  if (!anchor.getAttribute('data-img-src')) {
+		const img = anchor.querySelector('img');
+		if (img) {
+		  anchor.setAttribute('data-img-src', img.getAttribute('src'));
+		}
+	  }
+	  
+	  const altText = anchor.getAttribute('data-alt-text') || '';
+	  // אפקט fade: הגדרת מעבר באופסיטי
+	  anchor.style.transition = 'opacity 0.5s ease';
+	  anchor.style.opacity = '0';
+	  
+	  setTimeout(function() {
+		// מחליפים את התוכן לטקסט עם עיצוב בסיסי
+		anchor.innerHTML = '<span style="font-size: 1.8em; font-weight: bold;">' + altText + '</span>';
+		anchor.style.opacity = '1';
+		anchor.setAttribute('data-is-text', 'true');
+	  }, 500);
+	}
+	</script>
+	
 <body class="homepage is-preload">
 	<!-- ======== עטיפת הדף (Telephasic) ======== -->
 	<div id="page-wrapper">
@@ -182,11 +215,14 @@
 			<!-- Hero -->
 			<section id="hero" class="container">
 				<ul class="actions">
-					<li>
-						<a href="https://wa.me/972542455869?text=שלום,%20אני%20מעוניין%20במידע%20נוסף" class="button" target="_blank">!צור קשר עכשיו</a>
-					</li>
+				  <li>
+					<a href="https://wa.me/972542455869?text=שלום,%20אני%20מעוניין%20במידע%20נוסף" class="animated-link" target="_blank">
+					  !צור קשר עכשיו
+					</a>
+				  </li>
 				</ul>
-			</section>
+			  </section>
+			  
 		</div>
 
 		<div style="text-align: center; padding: 20px; margin-top: 100px;">
@@ -229,56 +265,116 @@
 				</div>
 			</section>
 		</div>
+<!-- ======== Features 0 - השורות הראשונות ======== -->
+<div class="wrapper">
+	<section class="container">
+	  <header class="major reveal">
+		<h2>השירותים שלנו</h2>
+	  </header>
+	  <div class="row features reveal">
+		<section class="col-4 col-12-narrower feature">
+		  <div class="image-wrapper first">
+			<a href="#" class="image featured" data-alt-text="אישורי הגעה" onclick="toggleImageText(event, this)">
+			  <img src="images/okcome.png" alt="אישורי הגעה" />
+			</a>
+		  </div>
+		  <h1>אישורי הגעה</h1>
+		</section>
+		<section class="col-4 col-12-narrower feature">
+		  <div class="image-wrapper first">
+			<a href="#" class="image featured" data-alt-text="סידורי הושבה" onclick="toggleImageText(event, this)">
+			  <img src="images/char.png" alt="סידורי הושבה" />
+			</a>
+		  </div>
+		  <h1>סידורי הושבה</h1>
+		</section>
+		<section class="col-4 col-12-narrower feature">
+		  <div class="image-wrapper first">
+			<a href="#" class="image featured" data-alt-text="ניהול אירוע" onclick="toggleImageText(event, this)">
+			  <img src="images/manageevent.png" alt="ניהול אירוע" />
+			</a>
+		  </div>
+		  <h1>ניהול אירוע</h1>
+		</section>
+  
+		<section class="col-4 col-12-narrower feature reveal-left">
+		  <div class="image-wrapper">
+			<a href="#" class="image featured" data-alt-text="ניהול תקציב" onclick="toggleImageText(event, this)">
+			  <img src="images/bugetbutton.png" alt="ניהול תקציב" />
+			</a>
+		  </div>
+		  <h1>ניהול תקציב</h1>
+		</section>
+		<section class="col-4 col-12-narrower feature reveal">
+		  <div class="image-wrapper">
+			<a href="#" class="image featured" data-alt-text="הדרכות וסרטונים" onclick="toggleImageText(event, this)">
+			  <img src="images/movies.png" alt="הדרכות וסרטונים" />
+			</a>
+		  </div>
+		  <h1>הדרכות וסרטונים</h1>
+		</section>
+		<section class="col-4 col-12-narrower feature reveal-right">
+		  <div class="image-wrapper">
+			<a href="#" class="image featured" data-alt-text="ניהול מתנות" onclick="toggleImageText(event, this)">
+			  <img src="images/giftpic.png" alt="ניהול מתנות" />
+			</a>
+		  </div>
+		  <h1>ניהול מתנות</h1>
+		</section>
+	  </div>
+	  <ul class="actions major reveal">
+		<li><a href="#" class="button" id="extraServicesBtn">שירותים נוספים</a></li>
+	  </ul>
+	</section>
+  </div>
+  
 
-		<!-- ======== Features 0 - השורות הראשונות ======== -->
+		
+		<!-- ======== בואו נתחיל ======== -->
 		<div class="wrapper">
-			<section class="container">
+			<div class="container">
 				<header class="major reveal">
-					<h2>השירותים שלנו</h2>
-				</header>
-				<div class="row features reveal">
-					<section class="col-4 col-12-narrower feature">
-						<div class="image-wrapper first">
-							<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-						</div>
-						<h1>אישורי הגעה</h1>
+					<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+						?איך זה עובד
+					  </p>				</header>
+				<div class="row">
+					<section class="col-6 col-12-narrower feature reveal">
+						<div>
+							<h3>מהו התהליך? שלושה שלבים פשוטים לארגון האירוע</h3>
+							<div>
+							  <strong>process-icon</strong>
+							  <h4>הוספת אורחים</h4>
+							  <p>
+								שכחו את גיליונות האקסל והמערכות הישנות – היום אתם יכולים להוסיף אורחים לרשימת המוזמנים ישירות דרך הווצאפ, בקלות ובמהירות, ואפילו לערוך את חלוקת הקבוצות מראש.
+							  </p>
+							</div>
+							<div>
+							  <strong>process-icon</strong>
+							  <h4>משדרים אישורים</h4>
+							  <p>
+								כשכמעט כל הישראלים משתמשים בווצאפ, אין צורך לחזור לשיטות ישנות כמו שליחת SMS. ההזמנות והתזכורות שלכם יישלחו ישירות בווצאפ, בזמנים ובשעות שתבחרו, כדי לוודא שהאורחים יאשרו את נוכחותם.
+							  </p>
+							</div>
+							<div>
+							  <strong>process-icon</strong>
+							  <h4>מחשבים מתנות והכנסות</h4>
+							  <p>
+								גם אם חלק מהמוזמנים לא יגיעו, זה לא בעיה – המערכת מאפשרת להם להעביר מתנות באמצעות אשראי, ובכך כל אחד מרוויח. בסיום האירוע, מה שנשאר לכם הוא פשוט לספור את ההכנסות והמתנות.
+							  </p>
+							</div>
+						  </div>
+						  
+						<ul class="actions">
+							<li><a href="#" class="button">הרשמה/התחברות</a></li>
+						</ul>
 					</section>
-					<section class="col-4 col-12-narrower feature">
-						<div class="image-wrapper first">
-							<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-						</div>
-						<h1>סידורי הושבה</h1>
-					</section>
-					<section class="col-4 col-12-narrower feature">
-						<div class="image-wrapper first">
-							<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-						</div>
-						<h1>ניהול אירוע</h1>
-					</section>
-
-					<section class="col-4 col-12-narrower feature reveal-left">
+					<section class="col-6 col-12-narrower feature reveal-right">
 						<div class="image-wrapper">
-							<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
+							<a href="#" class="image featured"><img src="images/stepbystep.png" alt="" /></a>
 						</div>
-						<h1>ניהול תקציב</h1>
-					</section>
-					<section class="col-4 col-12-narrower feature reveal">
-						<div class="image-wrapper">
-							<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-						</div>
-						<h1>הדרכות וסרטונים</h1>
-					</section>
-					<section class="col-4 col-12-narrower feature reveal-right">
-						<div class="image-wrapper">
-							<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-						</div>
-						<h1>ניהול מתנות</h1>
 					</section>
 				</div>
-				<ul class="actions major reveal">
-					<li><a href="#" class="button" id="extraServicesBtn">שירותים נוספים</a></li>
-				</ul>
-			</section>
+			</div>
 		</div>
 
 <!-- קטע חבילות ומחירים -->

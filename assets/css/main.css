@@ -2298,63 +2298,39 @@ input, select, textarea {
 			.dropotron.level-0.right:before {
 				right: 1em;
 			}
-
-/* Hero */
-
-	#hero {
-		position: relative;
-		color: #fff;
-		text-align: center;
-		z-index: 1;
-		top: 350px; /* משנה את המיקום כלפי מטה */
-
-	}
-
-		#hero h2 {
-			color: #fff;
-			font-size: 3em;
-		}
-
-		#hero strong {
-			color: inherit;
-		}
-
-		#hero header > span {
-			color: #fff;
-		}
-
-		#hero p {
-			font-size: 1.5em;
-			line-height: 1.5em;
-		}
-
-		#hero .button {
-			background: #fff;
-			border-color: rgba(255, 255, 255, 0);
-			color: #f08c89;
-			font-size: 1.25em;
-			margin-top: 50px; /* שינוי כאן - הזזת הכפתור למטה */
-
-		}
-
-			#hero .button:hover {
-				border-color: rgba(255, 255, 255, 0.75);
-				background-color: rgba(255, 255, 255, 0.15);
+			#hero {
+				position: absolute;
+				top: 85%; /* מרכז אנכית */
+				left: 50%; /* מרכז אופקית */
+				transform: translate(-50%, -50%);
+				text-align: center;
+				z-index: 1;
+			  }
+			  
+			  #hero .animated-link {
+				font-size: 1.4em;
 				color: #fff;
-				margin-top: 50px; /* שינוי כאן - הזזת הכפתור למטה */
-
-			}
-
-		#hero a {
-			color: #fff;
-			border-color: #fff;
-			border-color: rgba(255, 255, 255, 0.5);
-		}
-
-			#hero a:hover {
-				border-color: rgba(255, 255, 255, 0);
-			}
-
+				text-decoration: none;
+				position: relative;
+				display: inline-block;
+				margin-top: 100px; /* דוחף קצת למטה – תוכל לשחק עם הערך */
+			  }
+			  
+			  #hero .animated-link::after {
+				content: '';
+				position: absolute;
+				left: 0;
+				bottom: -4px;
+				width: 100%;
+				height: 2px;
+				background-color: #fff;
+				transition: width 0.3s ease-in-out;
+			  }
+			  
+			  #hero .animated-link:hover::after {
+				width: 0;
+			  }
+			  
 /* Promo */
 
 	#promo {

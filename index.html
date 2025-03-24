@@ -34,11 +34,13 @@
 	transition: background-color 0.3s ease, transform 0.3s ease; /* הוספנו transition גם ל־transform */
 	padding: 10px 0;  /* קצת מרווח אנכי */
 	transform: translateY(0); /* המצב הרגיל */
+	
 }
 
 /* במצב ריחוף - הצבע הופך ללבן והטקסט לשחור */
 #nav:hover {
 	background-color: #fff;
+
 }
 #nav:hover ul li a {
 	color: #000;
@@ -55,12 +57,12 @@
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	gap: 20px;
+	gap: 0px;
 	max-width: 1200px; /* אם תרצה להגביל רוחב */
 	margin: 0 auto;     /* מרכז אופקי של ה-inner */
 	padding: 0 20px;    /* רווח צדדי בסיסי */
-	margin-right: 50px; /* מוסיף הזזה נוספת לימין */
-	margin-top: -90px;
+	margin-right:0px; /* מוסיף הזזה נוספת לימין */
+	margin-top: -85px;
 
 }
 
@@ -86,6 +88,21 @@
 			padding-top: 70px; /* כי ה-nav גובה ~60px + קצת מרווח */
 		}
 
+		#nav ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;           /* המרווח מתחת לטקסט – ניתן להתאים */
+  width: 100%;
+  height: 2px;            /* עובי הפס */
+  background: rgb(0, 0, 0);       /* צבע הפס – ניתן לשנות */
+  transform: scaleX(0);   /* מתחיל ללא פס מוצג */
+  transition: transform 0.3s ease;
+}
+
+#nav ul li a:hover::after {
+  transform: scaleX(1);   /* כשהעכבר עובר, הפס מתרחב לאורך כל הכפתור */
+}
 
 		/* ======== Reveal Animations ======== */
 		.reveal,
@@ -149,7 +166,15 @@
       font-weight: 700;                   /* הדגשה */
       color: #ffd700;                     /* צבע לדוגמה (אפשר לשנות כרצונך) */
     }
-
+	@media screen and (max-width: 1360px) {
+			#nav ul {
+			  margin-top: 0;       /* ביטול margin-שלילי */
+			  flex-wrap: wrap;     /* מאפשר עטיפה לשורה חדשה */
+			  justify-content: center; /* ממרכז את הכפתורים */
+			}
+			
+		  }
+		  
     /* שאר הסגנונות שלך */
     #header-wrapper {
       padding-top: 70px;
@@ -201,6 +226,7 @@
 			  
 			</div>
 			<ul>
+				<li class="nav-left"><a href="#about">אודות</a></li>
 			  <li class="nav-left"><a href="#contact">צור קשר</a></li>
 			  <li class="nav-left"><a href="right-sidebar.html">התחבר למערכת</a></li>
 			  <li class="nav-left"><a href="#pricing">חבילות ומחירים</a></li>
@@ -249,103 +275,122 @@
 		  </div>
 		  
 		  
+		  <style>
+			/* רקע אחיד עם תמונה (ניתן לשנות ל־background-color אם מעדיפים צבע) */
+			.features-background {
+			  background: url("images/background.jpg") no-repeat center center;
+			  background-size: cover;
+			  padding: 40px 0; /* מרווח פנימי עליון ותחתון */
+			}
+		  </style>
+		  
+		  <div class="wrapper features-background">
+			<section class="container">
+			  <header class="major reveal">
+				<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+					השירותים שלנו				  </p>			  </header>
+			  <div class="row features reveal">
+				<!-- אישורי הגעה -->
+				<section class="col-4 col-12-narrower feature">
+				  <div class="image-wrapper first">
+					<a href="#" class="image featured" data-alt-text="אישורי הגעה" onclick="toggleImageText(event, this)">
+					  <img src="images/okcome.png" alt="אישורי הגעה" />
+					</a>
+				  </div>
+				  <h1>אישורי הגעה</h1>
+				</section>
+			
+				<!-- סידורי הושבה -->
+				<section class="col-4 col-12-narrower feature">
+				  <div class="image-wrapper first">
+					<a href="#" class="image featured" data-alt-text="סידורי הושבה" onclick="toggleImageText(event, this)">
+					  <img src="images/char.png" alt="סידורי הושבה" />
+					</a>
+				  </div>
+				  <h1>סידורי הושבה</h1>
+				</section>
+			
+				<!-- ניהול אירוע -->
+				<section class="col-4 col-12-narrower feature">
+				  <div class="image-wrapper first">
+					<a href="#" class="image featured" data-alt-text="ניהול אירוע" onclick="toggleImageText(event, this)">
+					  <img src="images/manageevent.png" alt="ניהול אירוע" />
+					</a>
+				  </div>
+				  <h1>ניהול אירוע</h1>
+				</section>
+			
+				<!-- ניהול תקציב -->
+				<section class="col-4 col-12-narrower feature reveal-left">
+				  <div class="image-wrapper">
+					<a href="#" class="image featured" data-alt-text="ניהול תקציב" onclick="toggleImageText(event, this)">
+					  <img src="images/bugetbutton.png" alt="ניהול תקציב" />
+					</a>
+				  </div>
+				  <h1>ניהול תקציב</h1>
+				</section>
+			
+				<!-- הדרכות וסרטונים -->
+				<section class="col-4 col-12-narrower feature reveal">
+				  <div class="image-wrapper">
+					<a href="#" class="image featured" data-alt-text="הדרכות וסרטונים" onclick="toggleImageText(event, this)">
+					  <img src="images/movies.png" alt="הדרכות וסרטונים" />
+					</a>
+				  </div>
+				  <h1>הדרכות וסרטונים</h1>
+				</section>
+			
+				<!-- ניהול מתנות -->
+				<section class="col-4 col-12-narrower feature reveal-right">
+				  <div class="image-wrapper">
+					<a href="#" class="image featured" data-alt-text="ניהול מתנות" onclick="toggleImageText(event, this)">
+					  <img src="images/giftpic.png" alt="ניהול מתנות" />
+					</a>
+				  </div>
+				  <h1>ניהול מתנות</h1>
+				</section>
+			  </div>
+			  <ul class="actions major reveal">
+				<li><a href="#" class="button" id="extraServicesBtn">שירותים נוספים</a></li>
+			  </ul>
+			</section>
+		  </div>
 		  
 
-		<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
-		<div class="wrapper" id="extraServices" style="display: none;">
-			<section class="container">
-				<header class="major reveal">
-					<h2>שירותים נוספים</h2>
-				</header>
-				<div class="row features reveal">
-					<section class="col-4 col-12-narrower feature">
-						<h3>שירות נוסף 1</h3>
-						<p>תיאור קצר על שירות נוסף 1.</p>
-					</section>
-					<section class="col-4 col-12-narrower feature">
-						<h3>שירות נוסף 2</h3>
-						<p>תיאור קצר על שירות נוסף 2.</p>
-					</section>
-					<section class="col-4 col-12-narrower feature">
-						<h3>שירות נוסף 3</h3>
-						<p>תיאור קצר על שירות נוסף 3.</p>
-					</section>
-				</div>
-			</section>
-		</div>
-<!-- ======== Features 0 - השורות הראשונות ======== -->
-<div class="wrapper">
+<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
+<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
+<div class="wrapper" id="extraServices" style="display: none;">
 	<section class="container">
 	  <header class="major reveal">
-		<h2>השירותים שלנו</h2>
+		<h2>שירותים נוספים</h2>
 	  </header>
 	  <div class="row features reveal">
-		<!-- אישורי הגעה -->
 		<section class="col-4 col-12-narrower feature">
-		  <div class="image-wrapper first">
-			<a href="#" class="image featured" data-alt-text="אישורי הגעה" onclick="toggleImageText(event, this)">
-			  <img src="images/okcome.png" alt="אישורי הגעה" />
-			</a>
+		  <div class="image-wrapper">
+			<img src="images/yeotz.png" alt="שירותי יעוץ והכוונה" style="width:100%; height:auto;">
 		  </div>
-		  <h1>אישורי הגעה</h1>
+		  <h3>שירותי יעוץ והכוונה</h3>
+		  <p>קבלו ייעוץ מקצועי והכוונה אישית לכל שלבי האירוע שלכם.</p>
 		</section>
-  
-		<!-- סידורי הושבה -->
 		<section class="col-4 col-12-narrower feature">
-		  <div class="image-wrapper first">
-			<a href="#" class="image featured" data-alt-text="סידורי הושבה" onclick="toggleImageText(event, this)">
-			  <img src="images/char.png" alt="סידורי הושבה" />
-			</a>
+		  <div class="image-wrapper">
+			<img src="images/managments.png" alt="דיילים" style="width:100%; height:auto;">
 		  </div>
-		  <h1>סידורי הושבה</h1>
+		  <h3>דיילים</h3>
+		  <p>דיילים מקצועיים שילווו את האירוע וידאגו לאורחים בכל רגע.</p>
 		</section>
-  
-		<!-- ניהול אירוע -->
 		<section class="col-4 col-12-narrower feature">
-		  <div class="image-wrapper first">
-			<a href="#" class="image featured" data-alt-text="ניהול אירוע" onclick="toggleImageText(event, this)">
-			  <img src="images/manageevent.png" alt="ניהול אירוע" />
-			</a>
-		  </div>
-		  <h1>ניהול אירוע</h1>
-		</section>
-  
-		<!-- ניהול תקציב -->
-		<section class="col-4 col-12-narrower feature reveal-left">
 		  <div class="image-wrapper">
-			<a href="#" class="image featured" data-alt-text="ניהול תקציב" onclick="toggleImageText(event, this)">
-			  <img src="images/bugetbutton.png" alt="ניהול תקציב" />
-			</a>
+			<img src="images/mores.png" alt="מאגר ספקים" style="width:100%; height:auto;">
 		  </div>
-		  <h1>ניהול תקציב</h1>
-		</section>
-  
-		<!-- הדרכות וסרטונים -->
-		<section class="col-4 col-12-narrower feature reveal">
-		  <div class="image-wrapper">
-			<a href="#" class="image featured" data-alt-text="הדרכות וסרטונים" onclick="toggleImageText(event, this)">
-			  <img src="images/movies.png" alt="הדרכות וסרטונים" />
-			</a>
-		  </div>
-		  <h1>הדרכות וסרטונים</h1>
-		</section>
-  
-		<!-- ניהול מתנות -->
-		<section class="col-4 col-12-narrower feature reveal-right">
-		  <div class="image-wrapper">
-			<a href="#" class="image featured" data-alt-text="ניהול מתנות" onclick="toggleImageText(event, this)">
-			  <img src="images/giftpic.png" alt="ניהול מתנות" />
-			</a>
-		  </div>
-		  <h1>ניהול מתנות</h1>
+		  <h3>מאגר ספקים</h3>
+		  <p>מצאו את כל הספקים הדרושים לכל שלבי האירוע במקום אחד.</p>
 		</section>
 	  </div>
-	  <ul class="actions major reveal">
-		<li><a href="#" class="button" id="extraServicesBtn">שירותים נוספים</a></li>
-	  </ul>
 	</section>
   </div>
   
+
   <script>
 	function toggleImageText(event, anchor) {
 	  event.preventDefault();
@@ -433,32 +478,33 @@
 
 		
 		<!-- ======== בואו נתחיל ======== -->
-		<div class="wrapper">
+		<div class="wrapper" style="margin-top: -100px;">
 			<div class="container">
 				<header class="major reveal">
 					<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
 						?איך זה עובד
-					  </p>				</header>
+					  </p>
+									</header>
 				<div class="row">
 					<section class="col-6 col-12-narrower feature reveal">
 						<div>
-							<h3>מהו התהליך? שלושה שלבים פשוטים לארגון האירוע</h3>
+							<h3>שלושה שלבים פשוטים לארגון האירוע</h3>
 							<div>
-							  <strong>process-icon</strong>
-							  <h4>הוספת אורחים</h4>
+								<img src="images/one.png" alt="" style="width:20%; height:20%;">
+								<h4>הוספת אורחים</h4>
 							  <p>
 								שכחו את גיליונות האקסל והמערכות הישנות – היום אתם יכולים להוסיף אורחים לרשימת המוזמנים ישירות דרך הווצאפ, בקלות ובמהירות, ואפילו לערוך את חלוקת הקבוצות מראש.
 							  </p>
 							</div>
 							<div>
-							  <strong>process-icon</strong>
+								<img src="images/two.png" alt="" style="width:20%; height:20%;">
 							  <h4>משדרים אישורים</h4>
 							  <p>
 								כשכמעט כל הישראלים משתמשים בווצאפ, אין צורך לחזור לשיטות ישנות כמו שליחת SMS. ההזמנות והתזכורות שלכם יישלחו ישירות בווצאפ, בזמנים ובשעות שתבחרו, כדי לוודא שהאורחים יאשרו את נוכחותם.
 							  </p>
 							</div>
 							<div>
-							  <strong>process-icon</strong>
+								<img src="images/three.png" alt="" style="width:20%; height:20%;">
 							  <h4>מחשבים מתנות והכנסות</h4>
 							  <p>
 								גם אם חלק מהמוזמנים לא יגיעו, זה לא בעיה – המערכת מאפשרת להם להעביר מתנות באמצעות אשראי, ובכך כל אחד מרוויח. בסיום האירוע, מה שנשאר לכם הוא פשוט לספור את ההכנסות והמתנות.
@@ -467,218 +513,233 @@
 						  </div>
 						  
 						<ul class="actions">
-							<li><a href="#" class="button">הרשמה/התחברות</a></li>
+							<li><a href="right-sidebar.html" class="button">הרשמה/התחברות</a></li>
 						</ul>
 					</section>
 					<section class="col-6 col-12-narrower feature reveal-right">
-						<div class="image-wrapper">
-							<a href="#" class="image featured"><img src="images/stepbystep.png" alt="" /></a>
+						<div class="video-background2">
+							<video autoplay loop muted playsinline controls>
+								<source src="images/record1.mov" type="video/mp4">
+								הדפדפן שלך אינו תומך בתג וידאו.
+							</video>
 						</div>
-					</section>
+					  </section>
+					  
 				</div>
 			</div>
 		</div>
+		<div class="wrapper" id="pricing" style="margin-top: -250px;">
+			<section class="container">
+			  <header class="major">
+				<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+					חבילות ומחירים
+				  </p>
+							  </header>
+			  
+			  <div class="pricing-container">
+				<!-- חבילה משלימה -->
+				<div class="package">
+				  <h3>חבילה משלימה</h3>
 
-<!-- קטע חבילות ומחירים -->
-<div class="wrapper" id="pricing">
-	<section class="container">
-		<header class="major">
-		<h2>חבילות ומחירים</h2>
-	  </header>
-	  
-	  <div class="pricing-container">
-		<!-- חבילה משלימה -->
-		<div class="package">
-		  <h3>חבילה משלימה</h3>
-		  <div class="package-details">
-			<p><strong>כוללת תהליך שלם:</strong></p>
-			<ul>
-			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
-			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
-			  <li>✅ שיחות לאורחים שלא אישרו הגעה ע"י מוקד אנושי</li>
-			  <li>✅ סידור שולחנות ביום האירוע <span class="highlight">אוטומטי</span></li>
-			  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
-			</ul>
-			<p><strong>כוללת גם:</strong></p>
-			<ul>
-			  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
-			  <li>✅ צוות EasyVent לאירוע (לא כולל אילת)</li>
-			</ul>
-		  </div>
-		  <div class="package-icons">
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב ראשון</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב שני</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/phone-call.png" alt="Phone Icon">
-			  <span>סבב טלפוני</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>תזכורת</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>תודה רבה</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/stewardess.png" alt="Stewardess Icon">
-			  <span>מארחת</span>
-			</div>
-		  </div>
-		  <div class="package-price">
-			<p class="price">רק ב- <strong>תמחיר</strong>₪</p>
-			<p>(<strong>Numberofguests</strong> x 1.7 = <strong>תמחיר</strong>₪)</p>
-			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
-		  </div>
-		  <button class="purchase-button">רכישה</button>
-		</div>
-		
-		<!-- חבילה בסיסית -->
-		<div class="package">
-		  <h3>חבילה בסיסית</h3>
-		  <div class="package-details">
-			<p><strong>כוללת תהליך שלם:</strong></p>
-			<ul>
-			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
-			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
-			  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
-			</ul>
-		  </div>
-		  <div class="package-icons">
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב ראשון</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב שני</span>
-			</div>
-		  </div>
-		  <div class="package-price">
-			<p class="price">רק ב- <strong>תמחיר2</strong>₪</p>
-			<p>(<strong>Numberofguests</strong> x 0.4 = <strong>תמחיר2</strong>₪)</p>
-			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
-		  </div>
-		  <button class="purchase-button">רכישה</button>
-		</div>
-		
-		<!-- חבילה פלוס -->
-		<div class="package">
-		  <h3>חבילה פלוס</h3>
-		  <div class="package-details">
-			<p><strong>כוללת תהליך שלם:</strong></p>
-			<ul>
-			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
-			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
-			  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
-			  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
-			</ul>
-			<p><strong>כוללת גם:</strong></p>
-			<ul>
-			  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
-			</ul>
-		  </div>
-		  <div class="package-icons">
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב ראשון</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב שני</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>תזכורת</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>תודה רבה</span>
-			</div>
-		  </div>
-		  <div class="package-price">
-			<p class="price">רק ב- <strong>תמחיר3</strong>₪</p>
-			<p>(<strong>Numberofguests</strong> x 0.65 = <strong>תמחיר3</strong>₪)</p>
-			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
-		  </div>
-		  <button class="purchase-button">רכישה</button>
-		</div>
-		
-		<!-- חבילה דיגיטלית -->
-		<div class="package">
-		  <h3>חבילה דיגיטלית</h3>
-		  <div class="package-details">
-			<p><strong>כוללת תהליך שלם:</strong></p>
-			<ul>
-			  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
-			  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
-			  <li>✅ שיחות לאורחים שלא אישרו הגעה ע"י מוקד אנושי</li>
-			  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
-			  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
-			</ul>
-			<p><strong>כוללת גם:</strong></p>
-			<ul>
-			  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
-			</ul>
-		  </div>
-		  <div class="package-icons">
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב ראשון</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>סבב שני</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/phone-call.png" alt="Phone Icon">
-			  <span>סבב טלפוני</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>תזכורת</span>
-			</div>
-			<div class="icon-item">
-			  <img src="assets/images/whatsapp.png" alt="WhatsApp Icon">
-			  <span>תודה רבה</span>
-			</div>
-		  </div>
-		  <div class="package-price">
-			<p class="price">רק ב- <strong>תמחיר4</strong>₪</p>
-			<p>(<strong>Numberofguests</strong> x 0.8 = <strong>תמחיר4</strong>₪)</p>
-			<p>*המחיר לפי <strong>Numberofguests</strong> מוזמנים</p>
-		  </div>
-		  <button class="purchase-button">רכישה</button>
-		</div>
-	  </div>
-	</section>
-  </div>
-  
+				  <div class="package-details">
+					<ul>
+					  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+					  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+					  <li>✅ שיחות לאורחים שלא אישרו הגעה ע"י מוקד אנושי</li>
+					  <li>✅ סידור שולחנות ביום האירוע <span class="highlight">אוטומטי</span></li>
+					  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
+					</ul>
+					<p><strong>כוללת גם:</strong></p>
+					<ul>
+					  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
+					  <li>✅ צוות EasyVent לאירוע (לא כולל אילת)</li>
+					</ul>
+				  </div>
+				  <div class="package-icons">
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב ראשון</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב שני</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/phone-call.png" alt="Phone Icon">
+					  <span>סבב טלפוני</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>תזכורת</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>תודה רבה</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/stewardess.png" alt="Stewardess Icon">
+					  <span>מארחת</span>
+					</div>
+				  </div>
+				  <div class="package-price">
+					<p>(<strong>מספר מוזמנים</strong> x 1.7₪)</p>
+					<p>*המחיר לפי מספר מוזמנים</p>
+				  </div>
+				  <button class="purchase-button">רכישה</button>
+				</div>
+				
+				<!-- חבילה בסיסית -->
+				<div class="package">
+				  <h3>חבילה בסיסית</h3>
+				  <div class="package-details">
+					<ul>
+					  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+					  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+					  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
+					</ul>
+				  </div>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
 
+				  <div class="package-icons">
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב ראשון</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב שני</span>
+					</div>
+				  </div>
+				  <div class="package-price">
+					<p>(<strong>מספר מוזמנים</strong> x 0.4₪)</p>
+					<p>*המחיר לפי מספר מוזמנים</p>
+				  </div>
+				  <button class="purchase-button">רכישה</button>
+				</div>
+				
+				<!-- חבילה פלוס -->
+				<div class="package">
+				  <h3>חבילה פלוס</h3>
+				  <div class="package-details">
+					<ul>
+					  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+					  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+					  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
+					  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
+					</ul>
+					<p><strong>כוללת גם:</strong></p>
+					<ul>
+					  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
+					</ul>
+				  </div>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <div class="package-icons">
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב ראשון</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב שני</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>תזכורת</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>תודה רבה</span>
+					</div>
+				  </div>
+				  <div class="package-price">
+					<p>(<strong>מספר מוזמנים</strong> x 0.65₪)</p>
+					<p>*המחיר לפי מספר מוזמנים</p>
+				  </div>
+				  <button class="purchase-button">רכישה</button>
+				</div>
+				
+				<!-- חבילה דיגיטלית -->
+				<div class="package">
+				  <h3>חבילה דיגיטלית</h3>
+				  <div class="package-details">
+					<ul>
+					  <li>✅ שליחת הזמנות <span class="highlight">אוטומטי ב-WhatsApp</span> (לאישור הגעה)</li>
+					  <li>✅ שליחת סבב נוסף <span class="highlight">אוטומטי ב-WhatsApp</span></li>
+					  <li>✅ שיחות לאורחים שלא אישרו הגעה ע"י מוקד אנושי</li>
+					  <li>✅ סידור שולחנות <span class="highlight">אוטומטי</span></li>
+					  <li>✅ שליחת תודות <span class="highlight">WhatsApp</span> אחרי האירוע</li>
+					</ul>
+					<p><strong>כוללת גם:</strong></p>
+					<ul>
+					  <li>✅ מענה טלפוני להתייעצות (8:00 - 20:00)</li>
+					</ul>
+				  </div>
+				  <h3 style="color: #fff;">.</h3>
+				  <h3 style="color: #fff;">.</h3>
+				  <div class="package-icons">
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב ראשון</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>סבב שני</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/phone-call.png" alt="Phone Icon">
+					  <span>סבב טלפוני</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>תזכורת</span>
+					</div>
+					<div class="icon-item">
+					  <img src="assets/whatsapp.png" alt="WhatsApp Icon">
+					  <span>תודה רבה</span>
+					</div>
+				  </div>
+				  <div class="package-price">
+					<p>(<strong>מספר מוזמנים</strong> x 0.8₪)</p>
+					<p>*המחיר לפי מספר מוזמנים</p>
+				  </div>
+				  <button class="purchase-button">רכישה</button>
+				</div>
+			  </div>
+			</section>
+		  </div>
+				  <!-- ======== Features 1 - קצת עלינו ======== -->
 
-		<!-- ======== Features 1 - קצת עלינו ======== -->
-		<div class="wrapper">
+		<div id="about" class="wrapper" style="margin-top: -110px;">
 			<div class="container">
 				<header class="major reveal">
-					<h2>קצת עלינו</h2>
-				</header>
+					<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+						קצת עלינו
+					  </p>				</header>
 				<div class="row">
 					<section class="col-6 col-12-narrower feature reveal-left">
 						<div class="image-wrapper first">
-							<a href="#" class="image featured first"><img src="images/easyventlogo2.png" alt="" /></a>
+						<img src="images/easyventlogo2.png" alt="" class="image featured first" />
 						</div>
+
 						<header>
 							<h2>EasyVent</h2>
 						</header>
 						<p>
-							איזי וונט הגיע אלינו מצורך והבנה עמוקה שחתונה היום הינה עסק יקר,
-							ואנו באנו להוריד מחירים ולתת שירות מקצועי וטוב לצרכן...
+							איזי וונט הינה חברה לאישורי הגעה וסידורי הושבה.
+							בין היתר, ניתן למצוא אצלנו שירותי ייעוץ, הפקה וניהול תקציב.
+							אנו מציעים לנהל את האירוע מכל סוגי המכשירים והדפדפנים בזמן אמת
 						</p>
 						<ul class="actions">
 							<li><a href="#" class="button">לעמוד הבית</a></li>
@@ -686,17 +747,17 @@
 					</section>
 					<section class="col-6 col-12-narrower feature reveal-right">
 						<div class="image-wrapper">
-							<a href="#" class="image featured"><img src="images/yoveltec.png" alt="" /></a>
-						</div>
+							<img src="images/yoveltec.png" alt="" class="image featured" />
+						  </div>
+						  
 						<header>
 							<h2>יובל טכנולוגיות</h2>
 						</header>
 						<p>
-							אנו חברה שעוסקת בפתרונות תוכנה, פיתוח אתרים, אוטומציה ופיתוח שבבים...
-							ניתן לקבוע איתנו פגישה דרך האתר או בכפתור "צור קשר".
+							יובל טכנולוגיות הינה חברה לפיתוח ויישום תוכנה. בין היתר, אנו מציעים שירותי אוטומציה למכשירים השונים. ניתן לפנות אלינו דרך האתר או באמצעות הודעת וואטסאפ במספר 0542455869
 						</p>
 						<ul class="actions">
-							<li><a href="#" class="button">לאתר החברה</a></li>
+							<li><a href="bulding.html" class="button">לאתר החברה</a></li>
 						</ul>
 					</section>
 				</div>
@@ -711,15 +772,16 @@
 				<a href="#" class="image featu1red"><img src="images/googleback.png" alt="" /></a>
 			</section>
 		</div>
+<!--
 
-		<!-- ======== Features 2: גלריית תמונות ======== -->
 		<div class="wrapper">
 			<section class="container">
 				<header class="major reveal">
-					<h2>גלריית תמונות</h2>
+					<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+					קצת מהאירועים שלנו
+					  </p>	
 				</header>
 
-				<!-- שורה ראשונה -->
 				<div class="row features reveal" id="gallery-row-1">
 					<section class="col-4 col-12-narrower feature">
 						<div class="image-wrapper first">
@@ -738,7 +800,7 @@
 					</section>
 				</div>
 
-				<!-- שתי שורות נוספות מוסתרות -->
+
 				<div class="row features reveal" id="gallery-row-2" style="display: none;">
 					<section class="col-4 col-12-narrower feature">
 						<div class="image-wrapper">
@@ -781,14 +843,17 @@
 			</section>
 		</div>
 
-		<!-- ======== אזור הדרכות ======== -->
+
+
 		<header class="major reveal" id="tutorials">
-			<h2>הדרכות</h2>
-			<h4>נשמח לשמוע ממכם ולשתף פעולה יחד, מוזמנים ליצור איתנו קשר באחת הפלטפורמות השונות</h4>
+			<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: -20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+				הדרכות וסרטונים
+			  </p>			
+			  <h4>נשמח לשמוע ממכם ולשתף פעולה יחד, מוזמנים ליצור איתנו קשר באחת הפלטפורמות השונות</h4>
 		</header>
 
 		<div class="tutorials-container reveal">
-			<!-- הדרכות לדוגמה -->
+
 			<section>
 				<h3>התחברות והרשמה</h3>
 				<video controls poster="images/googleback.png">
@@ -832,13 +897,15 @@
 				</video>
 			</section>
 		</div>
+	-->
 
 		<!-- ======== בואו נתחיל ======== -->
 		<div class="wrapper">
 			<div class="container">
 				<header class="major reveal">
-					<h2>בואו נתחיל!</h2>
-				</header>
+					<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+						!מאיפה מתחילים?, מכאן
+					  </p>					</header>
 				<div class="row">
 					<section class="col-6 col-12-narrower feature reveal">
 						<p>
@@ -1023,6 +1090,10 @@
   transition: background 0.3s ease;
   color: #333;
 }
+#extraServices {
+  padding-top: 1em !important;
+  padding-bottom: 2em !important;
+}
 
 .accessibility-menu button:hover {
   background: #e9e9e9;
@@ -1049,6 +1120,7 @@
 			transform-origin: top left;
 		}
 	</style>
+	
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 			// מוסיף דינמית את הכפתור והתפריט

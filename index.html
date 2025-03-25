@@ -284,12 +284,17 @@
 			}
 		  </style>
 		  
-		  <div class="wrapper features-background">
+		<!-- ======== אזור "השירותים שלנו" ======== -->
+		<div class="wrapper features-background">
 			<section class="container">
 			  <header class="major reveal">
 				<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-					השירותים שלנו				  </p>			  </header>
-			  <div class="row features reveal">
+					השירותים שלנו
+				</p>
+			  </header>
+
+			  <!-- שורה של 4 כפתורים ראשיים -->
+			  <div class="row features reveal" id="main-features">
 				<!-- אישורי הגעה -->
 				<section class="col-4 col-12-narrower feature">
 				  <div class="image-wrapper first">
@@ -297,7 +302,6 @@
 					  <img src="images/okcome.png" alt="אישורי הגעה" />
 					</a>
 				  </div>
-				  <h1>אישורי הגעה</h1>
 				</section>
 			
 				<!-- סידורי הושבה -->
@@ -307,9 +311,15 @@
 					  <img src="images/char.png" alt="סידורי הושבה" />
 					</a>
 				  </div>
-				  <h1>סידורי הושבה</h1>
 				</section>
-			
+							<!-- ניהול תקציב -->
+				<section class="col-4 col-12-narrower feature">
+					<div class="image-wrapper">
+					<a href="#" class="image featured" data-alt-text="ניהול תקציב" onclick="toggleImageText(event, this)">
+					<img src="images/bugetbutton.png" alt="ניהול תקציב" />
+					</a>
+				</div>
+				</section>
 				<!-- ניהול אירוע -->
 				<section class="col-4 col-12-narrower feature">
 				  <div class="image-wrapper first">
@@ -317,21 +327,30 @@
 					  <img src="images/manageevent.png" alt="ניהול אירוע" />
 					</a>
 				  </div>
-				  <h1>ניהול אירוע</h1>
 				</section>
 			
-				<!-- ניהול תקציב -->
-				<section class="col-4 col-12-narrower feature reveal-left">
-				  <div class="image-wrapper">
-					<a href="#" class="image featured" data-alt-text="ניהול תקציב" onclick="toggleImageText(event, this)">
-					  <img src="images/bugetbutton.png" alt="ניהול תקציב" />
-					</a>
-				  </div>
-				  <h1>ניהול תקציב</h1>
-				</section>
-			
+
+			  </div>
+
+
+			</section>
+						  <!-- כפתור: שירותים נוספים -->
+			<ul class="actions major reveal">
+			<li><a href="#" class="button" id="extraServicesBtn">שירותים נוספים</a></li>
+			</ul>
+		</div>
+
+		<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
+		<div class="wrapper" id="extraServices" style="display: none;">
+			<section class="container">
+			  <header class="major reveal">
+				<h2>שירותים נוספים</h2>
+			  </header>
+
+			  <!-- שורה ראשונה של שירותים נוספים -->
+			  <div class="row features reveal">
 				<!-- הדרכות וסרטונים -->
-				<section class="col-4 col-12-narrower feature reveal">
+				<section class="col-4 col-12-narrower feature">
 				  <div class="image-wrapper">
 					<a href="#" class="image featured" data-alt-text="הדרכות וסרטונים" onclick="toggleImageText(event, this)">
 					  <img src="images/movies.png" alt="הדרכות וסרטונים" />
@@ -341,7 +360,7 @@
 				</section>
 			
 				<!-- ניהול מתנות -->
-				<section class="col-4 col-12-narrower feature reveal-right">
+				<section class="col-4 col-12-narrower feature">
 				  <div class="image-wrapper">
 					<a href="#" class="image featured" data-alt-text="ניהול מתנות" onclick="toggleImageText(event, this)">
 					  <img src="images/giftpic.png" alt="ניהול מתנות" />
@@ -349,46 +368,41 @@
 				  </div>
 				  <h1>ניהול מתנות</h1>
 				</section>
-			  </div>
-			  <ul class="actions major reveal">
-				<li><a href="#" class="button" id="extraServicesBtn">שירותים נוספים</a></li>
-			  </ul>
-			</section>
-		  </div>
-		  
 
-<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
-<!-- ======== Services נוספים (מוסתר בהתחלה) ======== -->
-<div class="wrapper" id="extraServices" style="display: none;">
-	<section class="container">
-	  <header class="major reveal">
-		<h2>שירותים נוספים</h2>
-	  </header>
-	  <div class="row features reveal">
-		<section class="col-4 col-12-narrower feature">
-		  <div class="image-wrapper">
-			<img src="images/yeotz.png" alt="שירותי יעוץ והכוונה" style="width:100%; height:auto;">
-		  </div>
-		  <h3>שירותי יעוץ והכוונה</h3>
-		  <p>קבלו ייעוץ מקצועי והכוונה אישית לכל שלבי האירוע שלכם.</p>
-		</section>
-		<section class="col-4 col-12-narrower feature">
-		  <div class="image-wrapper">
-			<img src="images/managments.png" alt="דיילים" style="width:100%; height:auto;">
-		  </div>
-		  <h3>דיילים</h3>
-		  <p>דיילים מקצועיים שילווו את האירוע וידאגו לאורחים בכל רגע.</p>
-		</section>
-		<section class="col-4 col-12-narrower feature">
-		  <div class="image-wrapper">
-			<img src="images/mores.png" alt="מאגר ספקים" style="width:100%; height:auto;">
-		  </div>
-		  <h3>מאגר ספקים</h3>
-		  <p>מצאו את כל הספקים הדרושים לכל שלבי האירוע במקום אחד.</p>
-		</section>
-	  </div>
-	</section>
-  </div>
+				<!-- שירותי יעוץ והכוונה -->
+				<section class="col-4 col-12-narrower feature">
+				  <div class="image-wrapper">
+					<img src="images/yeotz.png" alt="שירותי יעוץ והכוונה" style="width:100%; height:auto;">
+				  </div>
+				  <h3>שירותי יעוץ והכוונה</h3>
+				  <p>קבלו ייעוץ מקצועי והכוונה אישית לכל שלבי האירוע שלכם.</p>
+				</section>
+			  </div>
+
+			  <!-- שורה שנייה של שירותים נוספים -->
+			  <div class="row features reveal">
+				<!-- דיילים -->
+				<section class="col-4 col-12-narrower feature">
+				  <div class="image-wrapper">
+					<img src="images/managments.png" alt="דיילים" style="width:100%; height:auto;">
+				  </div>
+				  <h3>דיילים</h3>
+				  <p>דיילים מקצועיים שילוו את האירוע וידאגו לאורחים בכל רגע.</p>
+				</section>
+				
+				<!-- מאגר ספקים -->
+				<section class="col-4 col-12-narrower feature">
+				  <div class="image-wrapper">
+					<img src="images/mores.png" alt="מאגר ספקים" style="width:100%; height:auto;">
+				  </div>
+				  <h3>מאגר ספקים</h3>
+				  <p>מצאו את כל הספקים הדרושים לכל שלבי האירוע במקום אחד.</p>
+				</section>
+			  </div>
+			</section>
+		</div>
+
+
   
 
   <script>

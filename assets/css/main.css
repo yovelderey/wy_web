@@ -3238,4 +3238,37 @@ transform: translate(-50%, -50%);
 	color: #090909;
 	font-weight: bold;
   }
+  #main-features {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 30px;
+  }
+  #extraServicesBtn {
+  background-color: #ffd700;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+  margin-top: 80px;
+
+}
+
+#extraServicesBtn:hover {
+  background-color: #e6c200;
+}
+#main-features {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;  /* מרכז אותם */
+	gap: 2rem;                /* רווח אופקי/אנכי */
+  }
+  
+  #main-features .feature {
+	flex: 0 0 calc(25% - 2rem);  /* ארבעה פריטים - כל אחד 25% מהרוחב */
+	box-sizing: border-box; 
+	min-width: 200px; /* להבטיח שהם לא יהיו צרים מדי */
+  }
   

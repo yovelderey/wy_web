@@ -2021,8 +2021,8 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		button:hover,
 		.button:hover {
-			color: #f35858;
-			border-color: rgba(243, 88, 88, 0.5);
+			color: #eb2fa9;
+			border-color: rgba(240, 36, 162, 0.758);
 		}
 
 /* Icons */
@@ -2079,18 +2079,7 @@ input, select, textarea {
 			z-index: 2;
 		}
 
-		.image-wrapper.first:before {
-			content: '';
-			display: block;
-			width: 2000%;
-			height: 100%;
-			position: absolute;
-			left: -1000%;
-			top: 0;
-			z-index: 1;
-			box-shadow: inset 0px 0px 0px 1px #e8e8e8;
-			background: #f6f8fb url("images/image-wrapper.svg");
-		}
+
 
 
 
@@ -2142,10 +2131,10 @@ input, select, textarea {
 
 .video-background2 video {
 position: absolute;
-top: 50%;
+top: 60%;
 left: 50%;
 width: 70%; /* טיפה יותר מ-100vw כדי לוודא כיסוי מלא */
-height: 90%;
+height: 100%;
 object-fit: cover;
 transform: translate(-50%, -50%);
 }
@@ -2168,11 +2157,18 @@ transform: translate(-50%, -50%);
 	#footer-wrapper {
 		-webkit-transform: translate3d(0, 0, 0);
 		position: relative;
-		border-top: solid 1px #c2c7cc;
+		border-top: solid 1px #4a4d4f;
 		padding: 6em 0 6em 0;
 		background-image: url("images/overlay.png"), url("images/footer.svg");
 		background-size: 128px 128px,				100% 100%;
 	}
+	#promo-wrapper h4 {
+		color: #fff !important;
+
+	  }
+	  #promo-wrapper h2 {
+		color: #fff !important;
+	  }
 
 /* Header */
 
@@ -3245,30 +3241,67 @@ transform: translate(-50%, -50%);
 	gap: 30px;
   }
   #extraServicesBtn {
-  background-color: #ffd700;
-  color: #000;
-  font-weight: bold;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 10px;
-  transition: background 0.3s ease;
-  margin-top: 80px;
+	-moz-transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+	-webkit-transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+	-ms-transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+	transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+	display: inline-block;
+	color: inherit;
+	background: none;
+	text-decoration: none;
+	border: solid 1px #c2c7cc;
+	border-radius: 0.35em;
+	padding: 0.8em 2em 0.8em 2em;
+	cursor: pointer;
+	outline: 0;
 
 }
 
 #extraServicesBtn:hover {
-  background-color: #e6c200;
+	color: #eb2fa9;
+	border-color: rgba(240, 36, 162, 0.758);
 }
-#main-features {
+.container {
+	width: 100%;
+	max-width: 1400px; /* ניתן להגדיל או להקטין לפי הצורך שלך */
+	margin: 0 auto; /* מרכז את כל האלמנטים בצורה מושלמת */
+	padding: 0 10px;
+	box-sizing: border-box;
+  }
+  
+  #main-features {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;  /* מרכז אותם */
-	gap: 2rem;                /* רווח אופקי/אנכי */
+	justify-content: space-between; /* פריסה שווה עם שוליים מדויקים */
+	gap: 15px;                      /* רווח בין האלמנטים - אפשר להקטין */
   }
   
   #main-features .feature {
-	flex: 0 0 calc(25% - 2rem);  /* ארבעה פריטים - כל אחד 25% מהרוחב */
-	box-sizing: border-box; 
-	min-width: 200px; /* להבטיח שהם לא יהיו צרים מדי */
+	flex: 1;                        /* כל האלמנטים יתחלקו ברוחב באופן שווה */
+	box-sizing: border-box;
+	max-width: 100%;                /* להבטיח שהאלמנטים יתפסו את כל השטח הפנוי */
   }
+  #main-features .feature .image-wrapper {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  #main-features .feature .image-wrapper:hover {
+	transform: translateY(-10px); 
+	box-shadow: 0px 8px 15px rgba(0,0,0,0.2);
+  }
+  
+  #main-features .feature .image-wrapper {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	box-shadow: 0px 6px 15px rgba(0,0,0,0.3); /* צל תמידי חזק יותר */
+	border-radius: 12px;
+  }
+  
+  #main-features .feature .image-wrapper:hover {
+	transform: translateY(-12px); /* עולה למעלה בזמן הובר */
+	box-shadow: 0px 15px 30px rgba(0,0,0,0.5); /* צל מודגש ומורגש בהובר */
+  }
+  
+  
+  
+  
+
   

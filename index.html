@@ -150,6 +150,39 @@
 			align-items: center;
 			gap: 0px;
 		}
+		#promo-wrapper {
+    background-image: url('images/promodown.png');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 4em 0;
+    color: #fff;
+  }
+
+  .promo-title {
+	margin-top: 0em; /* מרווח בין הטקסט לתמונות */
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    font-family: 'Arial', sans-serif; /* שנה לפונט הרצוי שלך */
+  }
+
+  .promo-subtitle {
+    font-size: 1.4em;
+    margin-bottom: 0.0em;
+    font-family: 'Arial', sans-serif; /* שנה לפונט הרצוי שלך */
+  }
+
+  .store-buttons {
+    margin-top: 2em; /* מרווח בין הטקסט לתמונות */
+  }
+
+
+  .store-buttons img {
+    width: 220px; /* או כל גודל שתרצה להקטין אליו */
+    height: auto; /* לשמור על הפרופורציה */
+    margin: 0 10px; /* להגדלת הרווח בין הכפתורים */
+}
 
 		/* רשתות חברתיות / Social links */
 		.social-links {
@@ -784,14 +817,20 @@
 		</div>
 
 		<!-- ======== Promo כלשהו ======== -->
-		<div id="promo-wrapper" style="background-image: url('images/promodown.png'); background-size: cover; background-position: center;">
-			<h2>חפשו אותנו בחנות האפליקציות</h2>
-			<h4>לעצב, לשתף ולתכנן את האירוע בכל מקום דרך אפליקציות</h4>
-			<h4>האייפון והאנדרואיד החינמיות שלנו</h4>
-
-				<a href="#" class="image featu1red"><img src="images/iosback.png" alt="" /></a>
-				<a href="#" class="image featu1red"><img src="images/googleback.png" alt="" /></a>
-		</div>
+		<div id="promo-wrapper">
+			<p class="promo-title">!חפשו אותנו בחנות האפליקציות</p>
+			<p class="promo-subtitle">לעצב, לשתף ולתכנן את האירוע בכל מקום דרך אפליקציות</p>
+			<p class="promo-subtitle">האייפון והאנדרואיד החינמיות שלנו</p>
+		  
+			<div class="store-buttons">
+			  <a href="#" class="image featured1">
+				<img src="images/iosback.png" alt="iOS" />
+			  </a>
+			  <a href="#" class="image featured1">
+				<img src="images/googleback.png" alt="Android" />
+			  </a>
+			</div>
+		  </div>
 <!--
 
 		<div class="wrapper">

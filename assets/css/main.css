@@ -3147,6 +3147,8 @@ transform: translate(-50%, -50%);
 		flex-wrap: nowrap;           /* מונע שבירה לשורות נוספות */
 		gap: 0px;
 		justify-content: center;
+		padding-top: 100px; /* נסה בין 80-120px */
+
 		margin-top: 0px;
 		overflow-x: auto;           /* במקרה שהמסך קטן – מתאפשר גלילה אופקית */
 	  }
@@ -3301,7 +3303,30 @@ transform: translate(-50%, -50%);
   }
   
   
+  .package {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	position: relative;
+	z-index: 10;
+  }
+  .package:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  }
+  .package:hover {
+	background-color: #fafafa;
+  }
   
   
-
+  #extraServices {
+	overflow: hidden;
+	max-height: 0;
+	transition: max-height 0.6s ease, opacity 0.4s ease;
+	opacity: 0;
+  }
+  
+  #extraServices.open {
+	max-height: 1000px; /* שים לב – אתה יכול להגדיל לפי הצורך */
+	opacity: 1;
+  }
+  
   

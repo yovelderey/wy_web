@@ -1128,27 +1128,33 @@
 			transform: scale(1.2);
 			transform-origin: top left;
 		}
+
 		@media screen and (max-width: 736px) {
-  /* גורם לשורה להיות Flex עם עטיפה */
+  /* מוודאים שהשורה תהיה flex ותאפשר עטיפה */
   .row.features {
     display: flex !important;
     flex-wrap: wrap !important;
+    margin: 0 !important;    /* דריסה של margin-top: -50px או דומה */
+    padding: 0 !important;   /* דריסה של padding שקיימת ב-telphasic */
   }
 
-  /* כל כרטיס (col-4) יתפוס 50% מרוחב השורה, 
-     כך שמתקבלים 2 אלמנטים בשורה */
+  /* כל כרטיס (col-4) יתפוס 50% מהשורה */
   .row.features > section.col-4 {
-    flex: 0 0 40% !important;   /* 50% מהרוחב */
-    box-sizing: border-box;     /* מבטיח שה-50% יתחשב גם בפדינג/גבולות */
-    margin: 0;                  /* אפשר לשחק עם מרווחים כרצונך */
+    flex: 110 11 40% !important;   /* 2 כרטיסים בשורה */
+    box-sizing: border-box;
+    margin: 0 !important;       /* מבטל מרווח אוטומטי מוגזם */
+    padding: 0px !important;   /* ריווח פנימי קטן בין הכרטיסים */
   }
 
-  /* אופציונלי: להוסיף רווח אנכי בין השורות */
+  /* אם רוצים להוסיף רווח אנכי קצת בין השורות */
   .row.features > section.col-4.feature {
-    margin-bottom: 0em !important;
+    margin-bottom: 1em !important;
   }
 }
 
+header.major p {
+    text-align: center !important;
+  }
 
 	</style>
 	

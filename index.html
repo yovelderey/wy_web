@@ -1152,9 +1152,19 @@
   }
 }
 
-header.major p {
+header.major p,
+  header.major h2 {
     text-align: center !important;
   }
+
+  @media screen and (max-width: 736px) {
+  /* ממקדים את הכותרות והפסקאות בעמודה השמאלית */
+  .row .col-6.col-12-narrower.feature.reveal h3,
+  .row .col-6.col-12-narrower.feature.reveal h4,
+  .row .col-6.col-12-narrower.feature.reveal p {
+    text-align: center !important;
+  }
+}
 
 	</style>
 	

@@ -3330,3 +3330,15 @@ transform: translate(-50%, -50%);
   }
   
   
+  @media screen and (max-width: 736px) {
+	/* גורם לכל col-4 לתפוס 100% רוחב במסכים צרים */
+	.row .col-4 {
+	  width: 100% !important;
+	}
+  
+	/* רווח אנכי קטן בין כרטיס לכרטיס */
+	.row .col-4.feature {
+	  margin-bottom: 2em;
+	}
+  }
+  

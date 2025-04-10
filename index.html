@@ -753,8 +753,8 @@
 
 		<!-- ======== Promo כלשהו ======== -->
 		<div id="promo-wrapper">
-			<p class="promo-title">!חפשו אותנו בחנות האפליקציות</p>
-			<p class="promo-subtitle">כל מה שצריך לאירוע לעצב, לתכנן ולשתף</p>
+			<p class="promo-title">חפשו אותנו בחנות האפליקציות</p>
+			<p class="promo-subtitle">כל מה שצריך לאירוע: לעצב, לתכנן ולשתף</p>
 			<p class="promo-subtitle">היישר מהאייפון או האנדרואיד שלכם. והכול בחינם</p>
 		  
 			<div class="store-buttons">
@@ -898,7 +898,7 @@
 			<div class="container">
 				<header class="major reveal">
 					<p style="font-size: 2.5em; font-weight: bold; color: #ff69b4; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-						!מאיפה מתחילים?, מכאן
+						?אז מאיפה מתחילים
 					  </p>					</header>
 				<div class="row">
 					<section class="col-6 col-12-narrower feature reveal">
@@ -947,7 +947,7 @@
 							  <a href="https://easyvent.co.il/" target="_blank" rel="noopener noreferrer">EasyEvent</a>
 							</li>
 							<li class="icon solid fa-phone contact">
-								<a href="tel:0542455869" target="_blank" rel="noopener noreferrer">054-245-5869</a>
+								<a href="tel:0542455869" target="_blank" rel="noopener noreferrer">0542455869</a>
 							  </li>
 							  
 						  </ul>
@@ -1150,6 +1150,17 @@
   .row.features > section.col-4.feature {
     margin-bottom: 1em !important;
   }
+  .row .col-6.col-12-narrower.feature.reveal h3,
+  .row .col-6.col-12-narrower.feature.reveal h4,
+  .row .col-6.col-12-narrower.feature.reveal p {
+    text-align: center !important;
+  }
+
+  /* זהו החלק שמרכז את התמונות */
+  .row .col-6.col-12-narrower.feature.reveal img {
+    display: block !important;
+    margin: 0 auto !important;
+  }
 }
 
 header.major p,
@@ -1165,6 +1176,53 @@ header.major p,
     text-align: center !important;
   }
 }
+@media only screen and (max-device-width: 736px) {
+  .pricing-container {
+    display: flex !important;
+    flex-direction: column !important; 
+    align-items: center !important; 
+  }
+
+  .pricing-container .package {
+    width: 85% !important; /* תופס רוחב מלא */
+    max-width: 500px;       /* אפשר לתת גודל מקסימלי */
+    margin-bottom: 2em;     /* רווח בין חבילה לחבילה */
+  }
+}
+/* מיישר לימין רק את הטקסט בשני ה-sections (EasyVent ויובל הנדסה) */
+#about .row section.col-6.col-12-narrower.feature {
+  text-align: right;
+}
+@media only screen and (max-device-width: 736px) {
+  /* למרכז את הטקסט ולתת לו קצת מרווח אנכי */
+  #promo-wrapper .promo-title {
+  margin: 1em 0;       /* מרווח עליון ותחתון */
+  line-height: 1;    /* גובה שורה נוח */
+}
+  #promo-wrapper .promo-subtitle {
+    text-align: center !important;
+    margin: 0em auto !important;  /* רווח עליון ותחתון */
+    max-width: 90%;               /* אם רוצים שלא יצמד לדפנות */
+  }
+
+  /* למרכז את כפתורי החנות וליצור רווח אנכי ביניהם */
+  #promo-wrapper .store-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;               /* רווח בין הכפתורים */
+    margin-top: 1.5em;        /* רווח בין הטקסט לכפתורים */
+  }
+
+  /* למקם את תמונות הכפתורים במרכז ובגודל אחיד */
+  #promo-wrapper .store-buttons img {
+    display: block;
+    margin: 0 auto !important; 
+    width: 180px;  /* אפשר לשנות לגודל המועדף */
+    height: auto;
+  }
+}
+
 
 	</style>
 	
